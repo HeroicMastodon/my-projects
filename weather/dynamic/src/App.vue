@@ -1,20 +1,21 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <router-view :key="$router.currentRoute.fullPath" />
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "./components/HelloWorld.vue";
 
 @Component({
   components: {
-    HelloWorld
   }
 })
-export default class App extends Vue {}
+export default class App extends Vue {
+    created() {
+        console.log(this.$router.currentRoute.fullPath)
+    }
+}
 </script>
 
 <style lang="scss">
