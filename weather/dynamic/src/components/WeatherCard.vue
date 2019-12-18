@@ -12,7 +12,6 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { WeatherRes } from '@/types/WeatherRes';
-import axios, { AxiosResponse } from 'axios';
 import {getWeather} from '@/utils/weather';
 
 @Component({
