@@ -65,6 +65,8 @@ export default class WeatherCard extends Vue {
 </script>
 
 <style scoped lang="scss">
+@import '../scss/__stuff.scss';
+
 .weather-card {
     display: flex;
     align-items: center;
@@ -97,7 +99,47 @@ export default class WeatherCard extends Vue {
 
         .owi {
             font-size: 250px;
-            padding-top:25px;
+            padding-top: 25px;
+        }
+    }
+}
+
+@media only screen and (max-width: $tablet-size) {
+    .weather-card {
+        .details {
+            .temp {
+                font-size: 100px;
+            }
+
+            .description {
+                font-size: 30px;
+            }
+        }
+
+        .icon {
+            .owi {
+                font-size: 150px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $mobile-size) {
+    .weather-card {
+        .details {
+            .temp {
+                font-size: 75px;
+            }
+
+            .description {
+                font-size: 30px;
+            }
+        }
+
+        .icon {
+            .owi {
+                font-size: 125px;
+            }
         }
     }
 }

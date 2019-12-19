@@ -3,18 +3,18 @@
         <div class="group">
             <!-- temps -->
             <div class="detail">
-                <div class="value">{{weather.details.temp_min}}</div>
+                <div class="value">{{weather.details.temp_min + "&deg;"}}</div>
                 <div class="name">High</div>
             </div>
             <div class="detail">
-                <div class="value">{{weather.details.temp_max}}</div>
+                <div class="value">{{weather.details.temp_max + "&deg;"}}</div>
                 <div class="name">Low</div>
             </div>
         </div>
         <div class="group">
             <!-- wind and precip -->
             <div class="detail">
-                <div class="value">{{weather.wind.speed}}</div>
+                <div class="value">{{weather.wind.speed + "mph"}}</div>
                 <div class="name">Wind</div>
             </div>
             <div class="detail">
@@ -113,9 +113,6 @@ export default class DetailCard extends Vue {
     camelCase(sentence: string) {
         let arr = sentence.split(' ');
 
-        // return arr.map((item) => {
-        //     return this.proper(item);
-        // }).join(' ');
         return arr.reduce((before, current) => {
             if (before[0] !== before[0].toUpperCase()) {
                 before = this.proper(before);
@@ -129,11 +126,72 @@ export default class DetailCard extends Vue {
 </script>
 
 <style scoped lang="scss">
+@import '../scss/__stuff.scss';
+
 .detail-card {
     display: flex;
+    justify-content: space-evenly;
     width: 100%;
     height: 100%;
 
-    background-color: #2222
+    background-color: #2222;
+
+    .group {
+        display: flex;
+
+        flex-direction: column;
+        justify-content: space-evenly;
+
+        .detail {
+
+            .value {
+                font-size: 50px;
+                font-weight: bold;
+            }
+
+            .name {
+                font-size: 25px;
+            }
+
+        }
+    }
+}
+
+@media only screen and (max-width: $tablet-size) {
+    .detail-card {
+        .group {
+
+            .detail {
+
+                .value {
+                    font-size: 35px;
+                    font-weight: inherit;
+                }
+
+                .name {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: $mobile-size) {
+    .detail-card {
+        .group {
+
+            .detail {
+
+                .value {
+                    font-size: 25px;
+                    font-weight: inherit;
+                }
+
+                .name {
+                    font-size: 15px;
+                }
+            }
+        }
+    }
 }
 </style>

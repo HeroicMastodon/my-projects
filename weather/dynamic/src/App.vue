@@ -19,6 +19,7 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -33,4 +34,7 @@ export default class App extends Vue {
   width: 100%;
   box-sizing: border-box;
 }
+
+
+
 </style>

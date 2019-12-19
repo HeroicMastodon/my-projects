@@ -38,6 +38,8 @@ export class WeatherRes {
 
         this.details = main;
         this.details.temp = Math.round(this.details.temp);
+        this.details.temp_min = Math.round(this.details.temp_min);
+        this.details.temp_max = Math.round(this.details.temp_max);
 
         this.sun = {
             rise: sys.sunrise,
@@ -46,6 +48,10 @@ export class WeatherRes {
 
         if (typeof wind != undefined) {
             this.wind = wind;
+
+            if (this.wind != undefined) {
+                this.wind.speed = Math.round(this.wind.speed);
+            }
         }
 
         if (typeof clouds != undefined) {
