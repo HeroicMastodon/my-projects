@@ -5,6 +5,7 @@ export class WeatherRes {
     sun: Sun;
     wind: Wind | undefined;
     clouds: Clouds | undefined;
+    precip: Precip | null;
 
     constructor({
         clouds,
@@ -12,7 +13,10 @@ export class WeatherRes {
         main,
         weather,
         wind,
-        sys
+        sys,
+        rain,
+        snow,
+        timezone
     }: {
         clouds: any;
         coord: any;
@@ -20,7 +24,10 @@ export class WeatherRes {
         weather: any;
         wind: any;
         sys: any;
-    }) {
+        rain: any;
+            snow: any;
+            timezone: any;
+        }) {
         this.coordinates = {
             lattitude: coord.lat,
             longitude: coord.lon
@@ -43,6 +50,24 @@ export class WeatherRes {
 
         if (typeof clouds != undefined) {
             this.clouds = clouds;
+        }
+
+        if (snow != undefined) {
+            this.precip = {
+                type: "snow",
+                oneHour: snow["1h"],
+                threeHour: snow["3h"]
+            }
+        }
+        else if (rain != undefined) {
+            this.precip = {
+                type: 'rain',
+                oneHour: rain['1h'],
+                threeHour: rain['3h']
+            };
+        }
+        else {
+            this.precip = null;
         }
     }
 
@@ -83,4 +108,10 @@ export interface Clouds {
 export interface Sun {
     rise: number;
     set: number;
+}
+
+export interface Precip {
+    type: string;
+    oneHour: number;
+    threeHour: number;
 }

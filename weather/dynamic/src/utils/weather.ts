@@ -11,13 +11,15 @@ function constructQuery(type: string, value: string): string {
 }
 
 export async function getWeather(value: string): Promise<WeatherRes | undefined> {
-    let query = constructQuery(weatherQuery, 'springville');
+    let query = constructQuery(weatherQuery, value);
     let res = (await axios.get(query)) || null;
     let data;
 
     if (res != null) {
         data = new WeatherRes(res.data);
     }
+
+    console.log(res);
 
     return data;
 }

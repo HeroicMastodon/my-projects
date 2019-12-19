@@ -31,5 +31,6 @@ export default class App extends Vue {
   justify-content: center;
   align-items: center;
   width: 100%;
+  box-sizing: border-box;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
     <div class="weather">
         <weather-card class="card card-left" />
-        <weather-card class="card card-right" />
+        <detail-card class="card card-right" />
     </div>
 </template>
 
@@ -9,11 +9,13 @@
 // @ is an alias to /src
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import WeatherCard from '@/components/WeatherCard.vue';
+import DetailCard from '@/components/DetailCard.vue';
 
 @Component({
     name: 'weather',
     components: {
-        WeatherCard
+        WeatherCard,
+        DetailCard
     }
 })
 export default class Weather extends Vue {
@@ -31,6 +33,9 @@ export default class Weather extends Vue {
         justify-content: center;
         height: 300px;
         width: 100%;
+
+        //TODO: Remove
+        overflow:hidden;
 
         .card {
             

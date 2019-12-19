@@ -71,13 +71,13 @@ export default class WeatherCard extends Vue {
     justify-content: center;
     width: 100%;
     background-color: #999999;
-    padding: 10px;
+    // padding: 10px;
     height: 100%;
 
     .details {
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
+        justify-content: space-evenly;
         align-items: center;
         width: 50%;
         height: 100%;
@@ -97,6 +97,7 @@ export default class WeatherCard extends Vue {
 
         .owi {
             font-size: 250px;
+            padding-top:25px;
         }
     }
 }
