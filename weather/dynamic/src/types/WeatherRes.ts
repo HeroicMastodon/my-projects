@@ -30,6 +30,7 @@ export class WeatherRes {
         this.weather = temp;
 
         this.details = main;
+        this.details.temp = Math.round(this.details.temp);
 
         this.sun = {
             rise: sys.sunrise,

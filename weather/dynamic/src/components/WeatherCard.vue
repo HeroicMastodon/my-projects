@@ -1,17 +1,14 @@
 <template>
     <div v-if="!loading" class="weather-card">
         <div class="icon">
-            <div class="description">{{ camelCase(weather.weather.description) }}</div>
-            <img
-                :src="
-                    'http://openweathermap.org/img/w/' +
-                        weather.weather.icon +
-                        '.png'
-                "
-            />
+            <i :class="'owi owi-' + weather.weather.icon"></i>
         </div>
-        <div class="temp">{{ weather.details.temp + ' &deg;F' }}</div>
-        <h4 class="header">{{ proper(place) }}</h4>
+        <div class="details">
+            <div class="temp">{{ weather.details.temp + '&deg;' }}</div>
+            <div class="description">
+                {{ camelCase(weather.weather.description) }}
+            </div>
+        </div>
     </div>
     <div v-else>
         {{ errMsg }}
@@ -51,10 +48,18 @@ export default class WeatherCard extends Vue {
 
     camelCase(sentence: string) {
         let arr = sentence.split(' ');
-        
-        return arr.map((item) => {
-            return this.proper(item);
-        }).join(' ');
+
+        // return arr.map((item) => {
+        //     return this.proper(item);
+        // }).join(' ');
+        return arr.reduce((before, current) => {
+            if (before[0] !== before[0].toUpperCase()) {
+                before = this.proper(before);
+            }
+
+            before += ' ' + this.proper(current);
+            return before;
+        });
     }
 }
 </script>
@@ -62,13 +67,37 @@ export default class WeatherCard extends Vue {
 <style scoped lang="scss">
 .weather-card {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    background-color: #999999;
+    padding: 10px;
+    height: 100%;
+
+    .details {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        align-items: center;
+        width: 50%;
+        height: 100%;
+
+        .temp {
+            font-size: 150px;
+        }
+
+        .description {
+            font-size: 50px;
+        }
+    }
 
     .icon {
-        display: flex;
-        align-items: center;
+        width: 50%;
+        height: 100%;
+
+        .owi {
+            font-size: 250px;
+        }
     }
 }
 </style>

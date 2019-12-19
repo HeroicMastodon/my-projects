@@ -1,6 +1,7 @@
 <template>
     <div class="weather">
-        <weather-card/>
+        <weather-card class="card card-left" />
+        <weather-card class="card card-right" />
     </div>
 </template>
 
@@ -23,5 +24,20 @@ export default class Weather extends Vue {
 </script>
 
 <style lang="scss" scoped>
+    .weather {
+        display: flex;
+        margin: 10px;
+        align-content: center;
+        justify-content: center;
+        height: 300px;
+        width: 100%;
 
+        .card {
+            
+        }
+
+        .card-left {
+            border-right: 5px solid black;
+        }
+    }
 </style>
