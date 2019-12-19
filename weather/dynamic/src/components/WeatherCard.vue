@@ -51,14 +51,10 @@ export default class WeatherCard extends Vue {
 
     camelCase(sentence: string) {
         let arr = sentence.split(' ');
-        arr = arr.map((item) => {
+        
+        return arr.map((item) => {
             return this.proper(item);
-        })
-
-        return arr.reduce((old, newVal) => {
-            old += ' ' + newVal;
-            return old;
-        })
+        }).join(' ');
     }
 }
 </script>
