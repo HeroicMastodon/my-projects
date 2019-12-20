@@ -1,5 +1,5 @@
 <template>
-    <div class="weather-card">
+    <div :class="'weather-card ' + size">
         <div class="icon">
             <i :class="'owi owi-' + icon"></i>
         </div>
@@ -16,7 +16,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator';
 import { WeatherRes } from '@/types/WeatherRes';
 import { getWeather } from '@/utils/weather';
-import {proper, camelCase} from '@/utils/helpers';
+import { proper, camelCase } from '@/utils/helpers';
 
 @Component({
     name: 'weatherCard'
@@ -25,16 +25,13 @@ export default class WeatherCard extends Vue {
     @Prop() private description!: string;
     @Prop() private icon!: string;
     @Prop() private temp!: number;
+    @Prop() private size!: string;
 
-
-    async created() {
-
-    }
+    async created() {}
 
     camelCase = (value: string) => {
-        return camelCase(value)
-    } 
-
+        return camelCase(value);
+    };
 }
 </script>
 
@@ -47,7 +44,6 @@ export default class WeatherCard extends Vue {
     justify-content: center;
     width: 100%;
     background-color: #999999;
-    // padding: 10px;
     height: 100%;
 
     .details {
@@ -76,10 +72,8 @@ export default class WeatherCard extends Vue {
             padding-top: 25px;
         }
     }
-}
 
-@media only screen and (max-width: $tablet-size) {
-    .weather-card {
+    &.tablet {
         .details {
             .temp {
                 font-size: 100px;
@@ -96,10 +90,8 @@ export default class WeatherCard extends Vue {
             }
         }
     }
-}
 
-@media only screen and (max-width: $mobile-size) {
-    .weather-card {
+    &.mobile {
         .details {
             .temp {
                 font-size: 75px;

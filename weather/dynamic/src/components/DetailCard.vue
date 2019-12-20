@@ -1,46 +1,44 @@
 <template>
-    <div v-if="!loading" class="detail-card">
+    <div :class="'detail-card ' + size">
         <div class="group">
             <!-- temps -->
             <div class="detail">
-                <div class="value">{{details.temp_min + "&deg;"}}</div>
+                <div class="value">{{ details.temp_min + '&deg;' }}</div>
                 <div class="name">High</div>
             </div>
             <div class="detail">
-                <div class="value">{{details.temp_max + "&deg;"}}</div>
+                <div class="value">{{ details.temp_max + '&deg;' }}</div>
                 <div class="name">Low</div>
             </div>
         </div>
         <div class="group">
             <!-- wind and precip -->
             <div class="detail">
-                <div class="value">{{wind.speed + "mph"}}</div>
+                <div class="value">{{ wind.speed + 'mph' }}</div>
                 <div class="name">Wind</div>
             </div>
             <div class="detail">
-                <div class="value">{{precip.amount + " in"}}</div>
-                <div class="name">{{proper(precip.type)}}</div>
+                <div class="value">{{ precipitation.amount + ' in' }}</div>
+                <div class="name">{{ proper(precipitation.type) }}</div>
             </div>
         </div>
         <div class="group">
             <!-- Sunrise/set -->
             <div class="detail">
-                <div class="value">{{getTime(sun.rise)}}</div>
+                <div class="value">{{ getTime(sun.rise) }}</div>
                 <div class="name">Sunrise</div>
             </div>
             <div class="detail">
-                <div class="value">{{getTime(sun.set)}}</div>
+                <div class="value">{{ getTime(sun.set) }}</div>
                 <div class="name">Sunset</div>
             </div>
         </div>
     </div>
-    <div v-else>
-        {{ errMsg }}
-    </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import Vue from 'vue';
+import { Component, Prop } from 'vue-property-decorator';
 import { WeatherRes, WeatherMain, Sun, Precip, Wind } from '@/types/WeatherRes';
 import { getWeather } from '@/utils/weather';
 
@@ -53,43 +51,30 @@ export default class DetailCard extends Vue {
     @Prop() sun!: Sun;
     @Prop() precip!: Precip;
     @Prop() wind!: Wind;
+    @Prop() size!: string;
 
+    precipitation!: any;
     weather: WeatherRes | undefined;
     place: string = 'springville';
     loading: Boolean = true;
     errMsg: String = 'Nothing to show here';
-    precip: any;
 
     async created() {
-        this.weather = await getWeather(this.place);
-        console.log(this.weather);
-
-        if (this.weather == undefined) {
-            this.errMsg = 'Something went wrong';
-        } else {
-            this.loading = false;
-            this.precip = this.getPrecip();
-        }
+        this.precipitation = this.getPrecip();
     }
 
     getTime(time: number) {
         let date = new Date(time * 1000);
-        console.log(date, date.getHours(), date.getMinutes());
-        let minutes = "0" + date.getMinutes();
-        let hours = "0" + date.getHours();
+        let minutes = '0' + date.getMinutes();
+        let hours = '0' + date.getHours();
 
-        return hours.substr(-2) + ":" + minutes.substr(-2);
+        return hours.substr(-2) + ':' + minutes.substr(-2);
     }
 
     getPrecip() {
-        let precip = null;
-        if (this.weather) {
-            precip = this.weather.precip || null;
-        }
-
-        if (precip == null) {
+        if (this.precip == null) {
             return {
-                type: "rain",
+                type: 'rain',
                 amount: 0
             };
         }
@@ -97,34 +82,20 @@ export default class DetailCard extends Vue {
         let amount = 0;
         const conversion = 25.4;
 
-        if (precip.threeHour != undefined) {
-            amount = Math.round(precip.threeHour / conversion);
-        }
-        else if (precip.oneHour != undefined) {
-            amount = Math.round(precip.oneHour / conversion);
+        if (this.precip.threeHour != undefined) {
+            amount = Math.round(this.precip.threeHour / conversion);
+        } else if (this.precip.oneHour != undefined) {
+            amount = Math.round(this.precip.oneHour / conversion);
         }
 
         return {
-            type: precip.type,
+            type: this.precip.type,
             amount: amount
-        }
+        };
     }
 
     proper(name: string) {
         return name[0].toUpperCase() + name.slice(1);
-    }
-
-    camelCase(sentence: string) {
-        let arr = sentence.split(' ');
-
-        return arr.reduce((before, current) => {
-            if (before[0] !== before[0].toUpperCase()) {
-                before = this.proper(before);
-            }
-
-            before += ' ' + this.proper(current);
-            return before;
-        });
     }
 }
 </script>
@@ -147,7 +118,6 @@ export default class DetailCard extends Vue {
         justify-content: space-evenly;
 
         .detail {
-
             .value {
                 font-size: 50px;
                 font-weight: bold;
@@ -156,17 +126,12 @@ export default class DetailCard extends Vue {
             .name {
                 font-size: 25px;
             }
-
         }
     }
-}
 
-@media only screen and (max-width: $tablet-size) {
-    .detail-card {
+    &.tablet {
         .group {
-
             .detail {
-
                 .value {
                     font-size: 35px;
                     font-weight: inherit;
@@ -178,14 +143,9 @@ export default class DetailCard extends Vue {
             }
         }
     }
-}
-
-@media only screen and (max-width: $mobile-size) {
-    .detail-card {
+    &.mobile {
         .group {
-
             .detail {
-
                 .value {
                     font-size: 25px;
                     font-weight: inherit;
