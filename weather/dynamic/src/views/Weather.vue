@@ -1,7 +1,21 @@
 <template>
-    <div class="weather">
-        <weather-card class="card card-left" />
-        <detail-card class="card card-right" />
+    <div class="weather" v-if="!loading">
+        <weather-card
+            class="card card-left"
+            :icon="weather.weather.icon"
+            :temp="weather.details.temp"
+            :description="weather.weather.description"
+        />
+        <detail-card 
+            class="card card-right" 
+            :details="weather.details"
+            :sun="weather.sun"
+            :precip="weather.precip"
+            :wind="weather.wind"
+        />
+    </div>
+    <div v-else>
+
     </div>
 </template>
 
@@ -10,6 +24,8 @@
 import { Component, Vue, Prop } from 'vue-property-decorator';
 import WeatherCard from '@/components/WeatherCard.vue';
 import DetailCard from '@/components/DetailCard.vue';
+import { WeatherRes } from '../types/WeatherRes';
+import { getWeather } from '../utils/weather';
 
 @Component({
     name: 'weather',
@@ -20,6 +36,16 @@ import DetailCard from '@/components/DetailCard.vue';
 })
 export default class Weather extends Vue {
     @Prop() private msg!: String;
+    weather!: WeatherRes | undefined;
+    loading: boolean = true;
+
+    async created() {
+        this.weather = await getWeather('springville');
+
+        if (this.weather != undefined) {
+            this.loading = false;
+        }
+    }
 }
 </script>
 
@@ -52,7 +78,6 @@ export default class Weather extends Vue {
     .weather {
         height: 100%;
         flex-direction: column;
-        overflow: hidden;
 
         .card {
             border-bottom: solid 5px black;
@@ -60,13 +85,11 @@ export default class Weather extends Vue {
 
         .card-left {
             border-right: none;
-            height: 180px;
-            overflow: hidden;
+            height: 160px;
         }
 
         .card-right {
             height: 140px;
-            overflow: hidden;
         }
     }
 }

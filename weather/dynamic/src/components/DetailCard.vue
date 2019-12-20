@@ -3,18 +3,18 @@
         <div class="group">
             <!-- temps -->
             <div class="detail">
-                <div class="value">{{weather.details.temp_min + "&deg;"}}</div>
+                <div class="value">{{details.temp_min + "&deg;"}}</div>
                 <div class="name">High</div>
             </div>
             <div class="detail">
-                <div class="value">{{weather.details.temp_max + "&deg;"}}</div>
+                <div class="value">{{details.temp_max + "&deg;"}}</div>
                 <div class="name">Low</div>
             </div>
         </div>
         <div class="group">
             <!-- wind and precip -->
             <div class="detail">
-                <div class="value">{{weather.wind.speed + "mph"}}</div>
+                <div class="value">{{wind.speed + "mph"}}</div>
                 <div class="name">Wind</div>
             </div>
             <div class="detail">
@@ -25,11 +25,11 @@
         <div class="group">
             <!-- Sunrise/set -->
             <div class="detail">
-                <div class="value">{{getTime(weather.sun.rise)}}</div>
+                <div class="value">{{getTime(sun.rise)}}</div>
                 <div class="name">Sunrise</div>
             </div>
             <div class="detail">
-                <div class="value">{{getTime(weather.sun.set)}}</div>
+                <div class="value">{{getTime(sun.set)}}</div>
                 <div class="name">Sunset</div>
             </div>
         </div>
@@ -41,7 +41,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator';
-import { WeatherRes } from '@/types/WeatherRes';
+import { WeatherRes, WeatherMain, Sun, Precip, Wind } from '@/types/WeatherRes';
 import { getWeather } from '@/utils/weather';
 
 @Component({
@@ -49,6 +49,10 @@ import { getWeather } from '@/utils/weather';
 })
 export default class DetailCard extends Vue {
     @Prop() private msg!: string;
+    @Prop() details!: WeatherMain;
+    @Prop() sun!: Sun;
+    @Prop() precip!: Precip;
+    @Prop() wind!: Wind;
 
     weather: WeatherRes | undefined;
     place: string = 'springville';
