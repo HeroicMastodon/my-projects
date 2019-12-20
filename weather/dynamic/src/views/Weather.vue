@@ -16,14 +16,19 @@
             :size="size"
         />
     </div>
-    <div v-else></div>
+    <div v-else>
+        <loader stroke="#aa5555" />
+    </div>
 </template>
 
 <script lang="ts">
 // @ is an alias to /src
 import { Component, Vue, Prop } from 'vue-property-decorator';
+
 import WeatherCard from '@/components/WeatherCard.vue';
 import DetailCard from '@/components/DetailCard.vue';
+import Loader from '@/components/Loader.vue';
+
 import { WeatherRes } from '../types/WeatherRes';
 import { getWeather } from '../utils/weather';
 
@@ -31,7 +36,8 @@ import { getWeather } from '../utils/weather';
     name: 'weather',
     components: {
         WeatherCard,
-        DetailCard
+        DetailCard,
+        Loader
     }
 })
 export default class Weather extends Vue {
