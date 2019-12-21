@@ -30,7 +30,8 @@ import DetailCard from '@/components/DetailCard.vue';
 import Loader from '@/components/Loader.vue';
 
 import { WeatherRes } from '../types/WeatherRes';
-import { getWeather } from '../utils/weather';
+import { getWeather, getForecast } from '../utils/weather';
+import { Forecast } from '../types/Forecast';
 
 @Component({
     name: 'weather',
@@ -47,6 +48,7 @@ export default class Weather extends Vue {
     readonly mobileSize = 768;
 
     weather!: WeatherRes | undefined;
+    forecast!: Forecast | undefined;
     loading: boolean = true;
     size: string = 'desktop';
 
@@ -58,8 +60,9 @@ export default class Weather extends Vue {
         }
 
         this.weather = await getWeather('springville');
+        this.forecast = await getForecast('springville');
 
-        if (this.weather != undefined) {
+        if (this.weather != undefined && this.forecast != undefined) {
             window.addEventListener('resize', this.handleResize);
             this.loading = false;
         }

@@ -1,5 +1,6 @@
 import { WeatherRes } from '../types/WeatherRes';
 import axios, { AxiosResponse } from 'axios';
+import {Forecast} from '@/types/Forecast';
 
 const apId = 'a2562e8c0a361ae54423c1402545f3a1';
 const units = 'imperial';
@@ -19,6 +20,19 @@ export async function getWeather(
 
     if (res != null) {
         data = new WeatherRes(res.data);
+    }
+
+    return data;
+}
+
+export async function getForecast(value: string) : Promise<Forecast | undefined> {
+    let query = constructQuery(forcastQuery, value);
+    let res = await axios.get(query) || null;
+
+    let data;
+
+    if (res != null) {
+        data = new Forecast(res.data);
     }
 
     return data;
