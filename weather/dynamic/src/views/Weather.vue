@@ -18,7 +18,7 @@
                 :feelsLike="weather.details.feels_like"
             />
         </div>
-        <forecast-day :forecast="forecast" />
+        <forecast-day :forecast="forecast" :size="size" />
     </div>
     <div v-else>
         <loader stroke="#aa5555" />
