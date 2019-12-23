@@ -1,8 +1,17 @@
 export class ForecastRes {
     list!: Array<ForecastItem>;
+    readonly dayMap = [
+        'Sun',
+        'Mon',
+        'Tue',
+        'Wed',
+        'Thur',
+        'Fri',
+        'Sat'
+    ]
 
     constructor({ list } : {list: Array<any>}) {
-
+        console.log(this.dayMap);
         if (list) {
             this.list = new Array<ForecastItem>();
         }
@@ -12,7 +21,7 @@ export class ForecastRes {
 
             date = {
                 dateTime: date,
-                day: date.getDay(),
+                day: this.dayMap[date.getDay()],
                 date: date.getDate(),
                 time: extractTime(date)
             } as Time;
@@ -62,7 +71,7 @@ export interface ForecastItem {
 
 export interface Time {
     dateTime: Date;
-    day: number;
+    day: string;
     date: number;
     time: string;
 }

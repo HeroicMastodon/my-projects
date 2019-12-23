@@ -36,7 +36,6 @@ export async function getForecast(value: string) : Promise<ForecastRes | undefin
 }
 
 export function getDayFromHourlyForecast(list: Array<ForecastItem>): ForecastItem {
-    console.log(list);
     const length = list.length;
     const begin = list[0];
     const end = list[length - 1];
@@ -47,7 +46,7 @@ export function getDayFromHourlyForecast(list: Array<ForecastItem>): ForecastIte
     let iconSumMap: Map<string, number> = new Map();
     let descriptionSumMap: Map<string, number> = new Map();
 
-    let tempMin: number = 0;
+    let tempMin: number = begin.main.temp_min;
     let tempMax: number = 0;
 
     list.forEach((item) => {

@@ -1,27 +1,50 @@
 <template>
-    <div :class="'forecast-card ' + direction + ' ' + size" v-if="direction == 'vertical'">
-        <div class="time">{{time}}</div>
+    <div
+        :class="'forecast-card ' + direction + ' ' + size"
+        v-if="direction == 'vertical'"
+    >
+        <div class="time">{{ time }}</div>
         <div class="icon"><i :class="'owi owi-' + icon"></i></div>
-        <div class="temp">{{temp + "&deg;"}}</div>
+        <div class="temp">{{ temp + '&deg;' }}</div>
     </div>
-    <div :class="'forecast-card ' + direction + ' ' + size" v-else-if="direction == 'horizontal'">
-        <div class="date"></div>
-        <div class="icon"></div>
-        <div class="temp"></div>
-        <div class="temp"></div>
-        <div class="wind"></div>
-        <div class="feels-like"></div>
+    <div
+        :class="'forecast-card ' + direction + ' ' + size"
+        v-else-if="direction == 'horizontal'"
+    >
+        <div class="group">
+            <div class="day">
+                {{ day }}
+            </div>
+            <div class="date">{{ date }}</div>
+        </div>
+        <div class="icon"><i :class="'owi owi-' + icon"></i></div>
+        <div class="group">
+            <div class="temp">{{ low + "&deg;" }}</div>
+            <div>Low</div>
+        </div>
+        <div class="group">
+            <div class="temp">{{ high + "&deg;" }}</div>
+            <div>High</div>
+        </div>
+        <div class="group">
+            <div class="wind">{{ wind }}</div>
+            <div>Wind</div>
+        </div>
+        <div class="group">
+            <div class="feels-like">{{ feelsLike + "&deg;" }}</div>
+            <div>Feels Like</div>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component, Prop } from "vue-property-decorator";
+import Vue from 'vue';
+import { Component, Prop } from 'vue-property-decorator';
 
-import { ForecastRes, ForecastItem } from "../types/Forecast";
+import { ForecastRes, ForecastItem } from '../types/Forecast';
 
 @Component({
-    name: "forecastCard",
+    name: 'forecastCard',
     components: {}
 })
 export default class ForecastCard extends Vue {
@@ -40,6 +63,7 @@ export default class ForecastCard extends Vue {
     high!: number;
     wind!: number;
     feelsLike!: number;
+    day!: string;
 
     created() {
         if (this.forecastItem) {
@@ -48,12 +72,13 @@ export default class ForecastCard extends Vue {
             this.temp = Math.round(this.forecastItem.main.temp);
 
             let date = this.forecastItem.time.dateTime;
-            this.date = (date.getMonth() + 1 + '/' + date.getDate());
-            
+            this.date = date.getMonth() + 1 + '/' + date.getDate();
+
             this.low = Math.round(this.forecastItem.main.temp_min);
             this.high = Math.round(this.forecastItem.main.temp_max);
             this.feelsLike = Math.round(this.forecastItem.main.feels_like);
             this.wind = Math.round(this.forecastItem.wind.speed);
+            this.day = this.forecastItem.time.day;
         }
     }
 }
@@ -75,7 +100,7 @@ export default class ForecastCard extends Vue {
         }
 
         .icon i {
-            font-size:  120px;
+            font-size: 120px;
         }
 
         .temp {
@@ -86,7 +111,8 @@ export default class ForecastCard extends Vue {
             width: 100px;
             height: 200px;
 
-            .time, .temp {
+            .time,
+            .temp {
                 font-size: 30px;
             }
 
@@ -101,7 +127,8 @@ export default class ForecastCard extends Vue {
             height: 200px;
             padding: 0 5px;
 
-            .time, .temp {
+            .time,
+            .temp {
                 font-size: 30px;
             }
 
@@ -112,7 +139,27 @@ export default class ForecastCard extends Vue {
     }
 
     &.horizontal {
+        background-color: rgb(158, 158, 158);
+        height: 50px;
+        margin-top: 5px;
+        padding: 5px;
 
+        justify-content: space-evenly;
+
+        .group {
+            div:first-child {
+                font-size: 20px;
+                font-weight: bold;
+            }
+
+            div:nth-child(2) {
+                font-size: 20px;
+            }
+        }
+
+        .icon {
+            font-size: 50px;
+        }
     }
 }
 </style>
