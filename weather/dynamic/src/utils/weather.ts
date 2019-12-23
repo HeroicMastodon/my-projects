@@ -13,27 +13,25 @@ function constructQuery(type: string, value: string): string {
 
 export async function getWeather(
     value: string
-): Promise<WeatherRes | undefined> {
+): Promise<WeatherRes> {
     let query = constructQuery(weatherQuery, value);
     let res = (await axios.get(query)) || null;
-    let data;
 
     if (res != null) {
-        data = new WeatherRes(res.data);
+        console.log(res.data);
+        return new WeatherRes(res.data);
     }
 
-    return data;
+    throw "request failed";
 }
 
 export async function getForecast(value: string) : Promise<ForecastRes | undefined> {
     let query = constructQuery(forcastQuery, value);
     let res = await axios.get(query) || null;
 
-    let data;
-
     if (res != null) {
-        data = new ForecastRes(res.data);
+        return new ForecastRes(res.data);
     }
 
-    return data;
+    throw "request failed";
 }

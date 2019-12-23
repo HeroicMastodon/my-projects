@@ -18,8 +18,8 @@
                 <div class="name">Wind</div>
             </div>
             <div class="detail">
-                <div class="value">{{ precipitation.amount + ' in' }}</div>
-                <div class="name">{{ proper(precipitation.type) }}</div>
+                <div class="value">{{ Math.round(feelsLike) + "&deg;" }}</div>
+                <div class="name">{{ "Feels Like" }}</div>
             </div>
         </div>
         <div class="group">
@@ -49,8 +49,8 @@ export default class DetailCard extends Vue {
     @Prop() private msg!: string;
     @Prop() details!: WeatherMain;
     @Prop() sun!: Sun;
-    // TODO: Use 'feels like' instead of precipitation
     @Prop() precip!: Precip;
+    @Prop() feelsLike!: number;
     @Prop() wind!: Wind;
     @Prop() size!: string;
 

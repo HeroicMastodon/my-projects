@@ -1,8 +1,13 @@
 <template> 
 <div v-if="forecast" class="forecast">
-    <forecast-card 
-        :forecastItem="forecast[0]"
+    <forecast-card v-for="i in 8" :key="i"
+        :forecastItem="forecast.list[i]"
+        :test="'test'"
+        direction="vertical"
     />
+</div>
+<div v-else class="error">
+    {{error}}
 </div>
 </template>
 
@@ -22,9 +27,16 @@ import { ForecastRes } from '../types/Forecast';
 })
 export default class ForecastDay extends Vue {
     @Prop() forecast!: ForecastRes | undefined;
+    error!: string;
 
     created() {
-        console.log(this.forecast);
+        if (! this.forecast) {
+            this.error = "Something went wrong";
+        }
+        else {
+            console.log('success')
+        }
+
     }
 }
 </script>
@@ -32,5 +44,10 @@ export default class ForecastDay extends Vue {
 <style lang="scss" scoped>
 .forecast {
     // width: 100%;
+    background-color: #3333;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 </style>

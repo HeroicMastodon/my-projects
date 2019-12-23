@@ -1,6 +1,8 @@
 <template>
-    <div class="forecast-card">
-
+    <div :class="'forecast-card ' + direction">
+        <div class="time">{{time}}</div>
+        <div class="icon"><i :class="'owi owi-' + icon"></i></div>
+        <div class="temp">{{temp + "&deg;"}}</div>
     </div>
 </template>
 
@@ -16,10 +18,44 @@ import { ForecastRes, ForecastItem } from "../types/Forecast";
 })
 export default class ForecastCard extends Vue {
     @Prop() forecastItem!: ForecastItem | undefined;
+    @Prop() direction!: string;
+
+    time!: string;
+    icon!: string;
+    temp!: number;
 
     created() {
-        let test: ForecastItem;
-        console.log(this.forecastItem);
+        if (this.forecastItem) {
+            this.time = this.forecastItem.time.time;
+            this.icon = this.forecastItem.weather.icon;
+            this.temp = Math.round(this.forecastItem.main.temp);
+        }
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.forecast-card {
+    display: flex;
+    justify-content: space-evenly;
+
+    &.vertical {
+        flex-direction: column;
+        height: 300px;
+        background-color: gray;
+        width: 150px;
+
+        .time {
+            font-size: 50px;
+        }
+
+        .icon i {
+            font-size:  120px;
+        }
+
+        .temp {
+            font-size: 50px;
+        }
+    }
+}
+</style>
