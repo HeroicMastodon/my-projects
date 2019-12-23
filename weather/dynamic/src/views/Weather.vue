@@ -1,5 +1,13 @@
 <template>
     <div class="weather" v-if="!loading">
+        <div class="heading">
+            <div class="location">
+                {{proper(location)}}
+            </div>
+            <div class="date">
+                {{date}}
+            </div>
+        </div>
         <div id="weather-bar" :class="'weather-bar ' + size">
             <weather-card
                 class="card card-left"
@@ -18,7 +26,9 @@
                 :feelsLike="weather.details.feels_like"
             />
         </div>
+        <div class="sub-heading">24 Hour Forecast</div>
         <forecast-day :forecast="forecast" :size="size" />
+        <div class="sub-heading">5 Day Forecast</div>
         <forecast-week :forecastList="forecast.list" />
     </div>
     <div v-else>
@@ -39,6 +49,7 @@ import ForecastWeek from "@/components/ForecastWeek.vue";
 import {WeatherRes} from "../types/WeatherRes";
 import {getWeather, getForecast} from "../utils/weather";
 import {ForecastRes} from "../types/Forecast";
+import { proper } from '../utils/helpers';
 
 @Component({
     name: "weather",
@@ -60,6 +71,8 @@ export default class Weather extends Vue {
     forecast!: ForecastRes | undefined;
     loading: boolean = true;
     size: string = "desktop";
+    location: string = "springville, UT";
+    date: string = "Monday December 23";
 
     async created() {
         if (window.innerWidth < this.mobileSize) {
@@ -69,8 +82,10 @@ export default class Weather extends Vue {
         }
 
         try {
-            this.weather = await getWeather("springville");
-            this.forecast = await getForecast("springville");
+            this.weather = await getWeather(this.location);
+            this.forecast = await getForecast(this.location);
+
+            console.log(this.weather);
 
             window.addEventListener("resize", this.handleResize);
             this.loading = false;
@@ -100,6 +115,10 @@ export default class Weather extends Vue {
 
     beforeDestroy() {
         window.removeEventListener("resize", this.handleResize);
+    }
+
+    proper = (word: string) => {
+        return proper(word);
     }
 }
 </script>
