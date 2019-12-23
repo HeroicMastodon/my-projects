@@ -1,6 +1,6 @@
 import { WeatherRes } from '../types/WeatherRes';
 import axios, { AxiosResponse } from 'axios';
-import {ForecastRes} from '@/types/Forecast';
+import {ForecastRes, ForecastItem, Time, ForecastClouds, ForecastWind} from '@/types/Forecast';
 
 const apId = 'a2562e8c0a361ae54423c1402545f3a1';
 const units = 'imperial';
@@ -33,4 +33,97 @@ export async function getForecast(value: string) : Promise<ForecastRes | undefin
     }
 
     throw "request failed";
+}
+
+export function getDayFromHourlyForecast(list: Array<ForecastItem>): ForecastItem {
+    console.log(list);
+    const length = list.length;
+    const begin = list[0];
+    const end = list[length - 1];
+
+    let tempSum: number = 0;
+    let feelsLikeSum: number = 0;
+    let windSum: number = 0;
+    let iconSumMap: Map<string, number> = new Map();
+    let descriptionSumMap: Map<string, number> = new Map();
+
+    let tempMin: number = 0;
+    let tempMax: number = 0;
+
+    list.forEach((item) => {
+        tempSum += item.main.temp;
+        feelsLikeSum += item.main.feels_like;
+        windSum += item.wind.speed;
+
+        let iconMapVal = iconSumMap.get(item.weather.icon);
+
+        if (iconMapVal != undefined) {
+            iconSumMap.set(item.weather.icon, (iconMapVal + 1))
+        }
+        else {
+            iconSumMap.set(item.weather.icon, 1);
+        }
+
+        let descrMapVal = descriptionSumMap.get(item.weather.description);
+
+        if (descrMapVal != undefined) {
+            descriptionSumMap.set(item.weather.description, descrMapVal + 1);
+        }
+        else {
+            descriptionSumMap.set(item.weather.description, 1);
+        }
+
+        tempMin = tempMin <= item.main.temp_min ? tempMin : item.main.temp_min;
+        tempMax = tempMax >= item.main.temp_max ? tempMax : item.main.temp_max;
+    });
+
+    let avgTemp = tempSum / length;
+    let avgFeelsLike = feelsLikeSum / length;
+    let avgWind = windSum / length;
+
+    let majorIcon: string = '';
+    let majorIconOcc: number = 0;
+
+    iconSumMap.forEach((occurances, icon) => {
+        if (occurances > majorIconOcc) {
+            majorIcon = icon;
+            majorIconOcc = occurances;
+        }
+    }); 
+
+    let majorDesc = '';
+    let majorDescOcc = 0;
+
+    descriptionSumMap.forEach((occ, desc) => {
+        if (occ > majorDescOcc) {
+            majorDesc = desc;
+            majorDescOcc = occ;
+        }
+    })
+
+    const clouds: ForecastClouds = begin.clouds;
+    const time = begin.time;
+
+    let main = begin.main;
+    main.temp_max = tempMax;
+    main.temp_min = tempMin;
+    main.temp = avgTemp;
+    main.feels_like = avgFeelsLike;
+    
+    let weather = begin.weather;
+    weather.description = majorDesc;
+    weather.icon = majorIcon;
+
+    const wind: ForecastWind = {
+        deg: begin.wind.deg,
+        speed: avgWind
+    }
+
+    return {
+        clouds,
+        main,
+        time,
+        weather,
+        wind
+    };
 }

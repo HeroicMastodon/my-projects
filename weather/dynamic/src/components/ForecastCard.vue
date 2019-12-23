@@ -1,8 +1,16 @@
 <template>
-    <div :class="'forecast-card ' + direction + ' ' + size">
+    <div :class="'forecast-card ' + direction + ' ' + size" v-if="direction == 'vertical'">
         <div class="time">{{time}}</div>
         <div class="icon"><i :class="'owi owi-' + icon"></i></div>
         <div class="temp">{{temp + "&deg;"}}</div>
+    </div>
+    <div :class="'forecast-card ' + direction + ' ' + size" v-else-if="direction == 'horizontal'">
+        <div class="date"></div>
+        <div class="icon"></div>
+        <div class="temp"></div>
+        <div class="temp"></div>
+        <div class="wind"></div>
+        <div class="feels-like"></div>
     </div>
 </template>
 
@@ -21,15 +29,31 @@ export default class ForecastCard extends Vue {
     @Prop() direction!: string;
     @Prop() size!: string;
 
+    // vertical card
     time!: string;
     icon!: string;
     temp!: number;
+
+    // horizontal card
+    date!: string;
+    low!: number;
+    high!: number;
+    wind!: number;
+    feelsLike!: number;
 
     created() {
         if (this.forecastItem) {
             this.time = this.forecastItem.time.time;
             this.icon = this.forecastItem.weather.icon;
             this.temp = Math.round(this.forecastItem.main.temp);
+
+            let date = this.forecastItem.time.dateTime;
+            this.date = (date.getMonth() + 1 + '/' + date.getDate());
+            
+            this.low = Math.round(this.forecastItem.main.temp_min);
+            this.high = Math.round(this.forecastItem.main.temp_max);
+            this.feelsLike = Math.round(this.forecastItem.main.feels_like);
+            this.wind = Math.round(this.forecastItem.wind.speed);
         }
     }
 }
@@ -85,6 +109,10 @@ export default class ForecastCard extends Vue {
                 font-size: 90px;
             }
         }
+    }
+
+    &.horizontal {
+
     }
 }
 </style>

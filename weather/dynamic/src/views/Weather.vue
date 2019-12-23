@@ -19,6 +19,7 @@
             />
         </div>
         <forecast-day :forecast="forecast" :size="size" />
+        <forecast-week :forecastList="forecast.list" />
     </div>
     <div v-else>
         <loader stroke="#aa5555" />
@@ -33,6 +34,7 @@ import WeatherCard from "@/components/WeatherCard.vue";
 import DetailCard from "@/components/DetailCard.vue";
 import Loader from "@/components/Loader.vue";
 import ForecastDay from "@/components/ForecastDay.vue";
+import ForecastWeek from "@/components/ForecastWeek.vue";
 
 import {WeatherRes} from "../types/WeatherRes";
 import {getWeather, getForecast} from "../utils/weather";
@@ -44,7 +46,8 @@ import {ForecastRes} from "../types/Forecast";
         WeatherCard,
         DetailCard,
         Loader,
-        ForecastDay
+        ForecastDay,
+        ForecastWeek
     }
 })
 export default class Weather extends Vue {

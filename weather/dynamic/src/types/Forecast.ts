@@ -60,14 +60,14 @@ export interface ForecastItem {
     wind: ForecastWind;
 }
 
-interface Time {
+export interface Time {
     dateTime: Date;
     day: number;
     date: number;
     time: string;
 }
 
-interface ForecastMain {
+export interface ForecastMain {
     temp: number;
     feels_like: number;
     temp_min: number;
@@ -79,18 +79,18 @@ interface ForecastMain {
     temp_kf: number;
 }
 
-interface ForecastWeather {
+export interface ForecastWeather {
     id: number;
     main: string;
     description: string;
     icon: string;
 }
 
-interface ForecastClouds {
+export interface ForecastClouds {
     all: number;
 }
 
-interface ForecastWind {
+export interface ForecastWind {
     speed: number;
     deg: number;
 }
