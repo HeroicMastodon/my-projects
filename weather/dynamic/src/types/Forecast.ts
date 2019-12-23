@@ -1,4 +1,4 @@
-export class Forecast {
+export class ForecastRes {
     list!: Array<ForecastItem>;
 
     constructor({ list } : {list: Array<any>}) {
@@ -28,11 +28,10 @@ export class Forecast {
             this.list.push(newItem);
         });
 
-        console.log(list[0]);
     }
 }
 
-export interface Forecast {
+export interface ForecastRes {
     list: Array<ForecastItem>
 }
 
@@ -53,7 +52,7 @@ export function extractTime(date: Date) {
 }
 
 
-interface ForecastItem {
+export interface ForecastItem {
     time: Time;
     main: ForecastMain;
     weather: ForecastWeather;

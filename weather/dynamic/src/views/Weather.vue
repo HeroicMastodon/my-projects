@@ -15,6 +15,9 @@
             :wind="weather.wind"
             :size="size"
         />
+        <forecast-day 
+            :forecast="forecast"
+        />
     </div>
     <div v-else>
         <loader stroke="#aa5555" />
@@ -28,17 +31,19 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import WeatherCard from '@/components/WeatherCard.vue';
 import DetailCard from '@/components/DetailCard.vue';
 import Loader from '@/components/Loader.vue';
+import ForecastDay from '@/components/ForecastDay.vue';
 
 import { WeatherRes } from '../types/WeatherRes';
 import { getWeather, getForecast } from '../utils/weather';
-import { Forecast } from '../types/Forecast';
+import { ForecastRes } from '../types/Forecast';
 
 @Component({
     name: 'weather',
     components: {
         WeatherCard,
         DetailCard,
-        Loader
+        Loader,
+        ForecastDay
     }
 })
 export default class Weather extends Vue {
@@ -48,7 +53,7 @@ export default class Weather extends Vue {
     readonly mobileSize = 768;
 
     weather!: WeatherRes | undefined;
-    forecast!: Forecast | undefined;
+    forecast!: ForecastRes | undefined;
     loading: boolean = true;
     size: string = 'desktop';
 
