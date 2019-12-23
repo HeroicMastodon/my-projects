@@ -26,7 +26,6 @@ export default class ForecastCard extends Vue {
     temp!: number;
 
     created() {
-        console.log(this.size);
         if (this.forecastItem) {
             this.time = this.forecastItem.time.time;
             this.icon = this.forecastItem.weather.icon;
@@ -60,7 +59,7 @@ export default class ForecastCard extends Vue {
         }
 
         &.tablet {
-            width: 90px;
+            width: 100px;
             height: 200px;
 
             .time, .temp {
@@ -74,8 +73,9 @@ export default class ForecastCard extends Vue {
 
         &.mobile {
             margin: 0 10px;
-            width: 90px;
+            width: 120px;
             height: 200px;
+            padding: 0 5px;
 
             .time, .temp {
                 font-size: 30px;

@@ -18,7 +18,6 @@ export async function getWeather(
     let res = (await axios.get(query)) || null;
 
     if (res != null) {
-        console.log(res.data);
         return new WeatherRes(res.data);
     }
 

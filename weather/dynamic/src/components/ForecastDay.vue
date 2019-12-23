@@ -35,11 +35,8 @@ export default class ForecastDay extends Vue {
         if (! this.forecast) {
             this.error = "Something went wrong";
         }
-        else {
-            console.log('success')
-        }
-
     }
+
 }
 </script>
 
@@ -54,11 +51,13 @@ export default class ForecastDay extends Vue {
 
     &.tablet {
         justify-content: space-evenly;
+        overflow: auto;
     }
 
 
     &.mobile {
         overflow: auto;
+        justify-content: space-between;
     }
 }
 </style>
