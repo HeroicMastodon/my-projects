@@ -26,11 +26,11 @@
             <div class="temp">{{ high + "&deg;" }}</div>
             <div>High</div>
         </div>
-        <div class="group">
-            <div class="wind">{{ wind }}</div>
+        <div class="group" v-if="size != 'mobile'">
+            <div class="wind">{{ wind + "mph" }}</div>
             <div>Wind</div>
         </div>
-        <div class="group">
+        <div class="group" v-if="size != 'mobile'">
             <div class="feels-like">{{ feelsLike + "&deg;" }}</div>
             <div>Feels Like</div>
         </div>
@@ -142,11 +142,14 @@ export default class ForecastCard extends Vue {
         background-color: rgb(158, 158, 158);
         height: 50px;
         margin-top: 5px;
-        padding: 5px;
+        padding: 5px 0;
+        width: 100%;
+        min-width: 280px;
 
         justify-content: space-evenly;
 
         .group {
+            width: fit-content;
             div:first-child {
                 font-size: 20px;
                 font-weight: bold;
@@ -160,6 +163,7 @@ export default class ForecastCard extends Vue {
         .icon {
             font-size: 50px;
         }
+
     }
 }
 </style>

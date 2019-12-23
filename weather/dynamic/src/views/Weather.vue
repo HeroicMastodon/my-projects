@@ -29,7 +29,7 @@
         <div class="sub-heading">24 Hour Forecast</div>
         <forecast-day :forecast="forecast" :size="size" />
         <div class="sub-heading">5 Day Forecast</div>
-        <forecast-week :forecastList="forecast.list" />
+        <forecast-week :forecastList="forecast.list" :size="size" />
     </div>
     <div v-else>
         <loader stroke="#aa5555" />

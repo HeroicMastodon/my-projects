@@ -1,9 +1,9 @@
 <template>
-    <div v-if="week" class="forecast-week">
+    <div v-if="week" :class="'forecast-week ' + size">
         <forecast-card
-            v-for="(day, index) in week" :key="index"
+            v-for="(day, index) in filterWeek()" :key="index"
             :forecastItem="day"
-            :size="'desktop'"
+            :size="size"
             :direction="'horizontal'"
         />
     </div>
@@ -25,6 +25,7 @@ import ForecastCard from '@/components/ForecastCard.vue';
 })
 export default class ForecastWeek extends Vue{
     @Prop() forecastList!: Array<ForecastItem>;
+    @Prop() size!: string;
 
     week!: Array<ForecastItem>;
     
@@ -52,5 +53,21 @@ export default class ForecastWeek extends Vue{
         })
         this.week.push(getDayFromHourlyForecast(day));
     }
+
+    filterWeek() {
+        return this.week.slice(1);
+    }
 }
 </script>
+
+<style lang="scss" scoped>
+.forecast-week {
+    width: 100%;
+    display: block;
+    min-width: 0;
+
+    &.mobile {
+        overflow-x: auto;
+    }
+}
+</style>

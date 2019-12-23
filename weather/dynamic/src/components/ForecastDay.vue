@@ -1,19 +1,23 @@
-<template> 
-<div v-if="forecast" :class="'forecast ' + size">
-    <forecast-card v-for="i in 8" :key="i"
-        :forecastItem="forecast.list[i]"
-        :test="'test'"
-        direction="vertical"
-        :size="size"
-    />
-</div>
-<div v-else class="error">
-    {{error}}
-</div>
+<template>
+    <div v-if="forecast" :class="'forecast ' + size">
+        <template v-if="size != 'mobile'">
+            <forecast-card
+                v-for="i in 8"
+                :key="i"
+                :forecastItem="forecast.list[i]"
+                :test="'test'"
+                direction="vertical"
+                :size="size"
+            />
+        </template>
+    </div>
+    <div v-else class="error">
+        {{ error }}
+    </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 
 import ForecastCard from '@/components/ForecastCard.vue';
@@ -22,9 +26,9 @@ import { ForecastRes } from '../types/Forecast';
 
 @Component({
     name: 'forecast',
-    components:{
+    components: {
         ForecastCard
-    } 
+    }
 })
 export default class ForecastDay extends Vue {
     @Prop() forecast!: ForecastRes | undefined;
@@ -32,11 +36,10 @@ export default class ForecastDay extends Vue {
     error!: string;
 
     created() {
-        if (! this.forecast) {
-            this.error = "Something went wrong";
+        if (!this.forecast) {
+            this.error = 'Something went wrong';
         }
     }
-
 }
 </script>
 
@@ -53,7 +56,6 @@ export default class ForecastDay extends Vue {
         justify-content: space-evenly;
         overflow: auto;
     }
-
 
     &.mobile {
         overflow: auto;
