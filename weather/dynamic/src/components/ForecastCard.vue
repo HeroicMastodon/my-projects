@@ -19,19 +19,19 @@
         </div>
         <div class="icon"><i :class="'owi owi-' + icon"></i></div>
         <div class="group">
-            <div class="temp">{{ low + "&deg;" }}</div>
+            <div class="temp">{{ low + '&deg;' }}</div>
             <div>Low</div>
         </div>
         <div class="group">
-            <div class="temp">{{ high + "&deg;" }}</div>
+            <div class="temp">{{ high + '&deg;' }}</div>
             <div>High</div>
         </div>
         <div class="group" v-if="size != 'mobile'">
-            <div class="wind">{{ wind + "mph" }}</div>
+            <div class="wind">{{ wind + 'mph' }}</div>
             <div>Wind</div>
         </div>
         <div class="group" v-if="size != 'mobile'">
-            <div class="feels-like">{{ feelsLike + "&deg;" }}</div>
+            <div class="feels-like">{{ feelsLike + '&deg;' }}</div>
             <div>Feels Like</div>
         </div>
     </div>
@@ -122,18 +122,20 @@ export default class ForecastCard extends Vue {
         }
 
         &.mobile {
-            margin: 0 10px;
-            width: 120px;
-            height: 200px;
+            margin: 5px 0;
+            min-width: 50px;
+            height: 125px;
             padding: 0 5px;
+            flex-basis: 50px;
+            flex-shrink: 1;
 
             .time,
             .temp {
-                font-size: 30px;
+                font-size: 20px;
             }
 
             .icon i {
-                font-size: 90px;
+                font-size: 50px;
             }
         }
     }
@@ -168,23 +170,21 @@ export default class ForecastCard extends Vue {
             height: 75px;
 
             .group {
-            width: fit-content;
-            div:first-child {
-                font-size: 35px;
-                font-weight: bold;
-            }
+                width: fit-content;
+                div:first-child {
+                    font-size: 35px;
+                    font-weight: bold;
+                }
 
-            div:nth-child(2) {
-                font-size: 25px;
+                div:nth-child(2) {
+                    font-size: 25px;
+                }
             }
 
             .icon {
                 font-size: 75px;
             }
         }
-
-        }
-
     }
 }
 </style>

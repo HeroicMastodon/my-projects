@@ -67,7 +67,7 @@ export default class ForecastWeek extends Vue{
     min-width: 0;
 
     &.mobile {
-        overflow-x: auto;
+        height: 340px;
     }
 }
 </style>

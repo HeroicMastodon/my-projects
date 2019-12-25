@@ -32,4 +32,8 @@ export default class App extends Vue {
     width: 100%;
     box-sizing: border-box;
 }
+body {
+    height: 100%;
+    background-color: #ececec;
+}
 </style>

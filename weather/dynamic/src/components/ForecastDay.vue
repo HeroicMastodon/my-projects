@@ -1,15 +1,13 @@
 <template>
     <div v-if="forecast" :class="'forecast ' + size">
-        <template v-if="size != 'mobile'">
-            <forecast-card
-                v-for="i in 8"
-                :key="i"
-                :forecastItem="forecast.list[i]"
-                :test="'test'"
-                direction="vertical"
-                :size="size"
-            />
-        </template>
+        <forecast-card
+            v-for="i in 8"
+            :key="i"
+            :forecastItem="forecast.list[i]"
+            :test="'test'"
+            direction="vertical"
+            :size="size"
+        />
     </div>
     <div v-else class="error">
         {{ error }}
@@ -33,6 +31,7 @@ import { ForecastRes } from '../types/Forecast';
 export default class ForecastDay extends Vue {
     @Prop() forecast!: ForecastRes | undefined;
     @Prop() size!: string;
+    @Prop() showMobileView!: boolean;
     error!: string;
 
     created() {
@@ -51,6 +50,7 @@ export default class ForecastDay extends Vue {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
 
     &.tablet {
         justify-content: space-evenly;
@@ -58,8 +58,8 @@ export default class ForecastDay extends Vue {
     }
 
     &.mobile {
-        overflow: auto;
-        justify-content: space-between;
+        justify-content: space-evenly;
+        height: 340px;
     }
 }
 </style>
