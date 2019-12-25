@@ -11,7 +11,6 @@ export class ForecastRes {
     ]
 
     constructor({ list } : {list: Array<any>}) {
-        console.log(this.dayMap);
         if (list) {
             this.list = new Array<ForecastItem>();
         }

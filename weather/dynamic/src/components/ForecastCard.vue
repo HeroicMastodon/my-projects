@@ -164,6 +164,27 @@ export default class ForecastCard extends Vue {
             font-size: 50px;
         }
 
+        &.desktop {
+            height: 75px;
+
+            .group {
+            width: fit-content;
+            div:first-child {
+                font-size: 35px;
+                font-weight: bold;
+            }
+
+            div:nth-child(2) {
+                font-size: 25px;
+            }
+
+            .icon {
+                font-size: 75px;
+            }
+        }
+
+        }
+
     }
 }
 </style>

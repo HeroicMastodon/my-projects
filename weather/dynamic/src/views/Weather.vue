@@ -85,8 +85,6 @@ export default class Weather extends Vue {
             this.weather = await getWeather(this.location);
             this.forecast = await getForecast(this.location);
 
-            console.log(this.weather);
-
             window.addEventListener("resize", this.handleResize);
             this.loading = false;
             
@@ -131,6 +129,24 @@ export default class Weather extends Vue {
     display: flex;
     flex-direction: column;
     margin: 10px;
+
+    .heading {
+        text-align: left;
+
+        .location {
+            font-size: 60px;
+            font-weight: bold;
+        }
+
+        .date {
+            font-size: 35px;
+        }
+    }
+
+    .sub-heading {
+        font-size: 35px;
+        text-align: left;
+    }
 
     .weather-bar {
         display: flex;

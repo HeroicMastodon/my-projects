@@ -90,6 +90,8 @@ export function getDayFromHourlyForecast(list: Array<ForecastItem>): ForecastIte
         }
     }); 
 
+    majorIcon = majorIcon.substring(0, majorIcon.length - 1) + 'd';
+
     let majorDesc = '';
     let majorDescOcc = 0;
 
