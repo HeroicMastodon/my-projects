@@ -93,14 +93,15 @@ export default class ForecastCard extends Vue {
         flex-direction: column;
         height: 300px;
         background-color: gray;
-        width: 150px;
+        width: 11%;
 
         .time {
-            font-size: 50px;
+            font-size: 40px;
+            font-weight: bold;
         }
 
         .icon i {
-            font-size: 120px;
+            font-size: 100px;
         }
 
         .temp {
@@ -108,16 +109,18 @@ export default class ForecastCard extends Vue {
         }
 
         &.tablet {
-            width: 100px;
+            width: 11%;
             height: 200px;
+            margin: 0 3px;
+            justify-content: space-between;
 
             .time,
             .temp {
-                font-size: 30px;
+                font-size: 4vw;
             }
 
             .icon i {
-                font-size: 90px;
+                font-size: 9vw;
             }
         }
 

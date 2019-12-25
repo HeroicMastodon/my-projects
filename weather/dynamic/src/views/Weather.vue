@@ -40,13 +40,13 @@
         </template>
         <div :class="'activation-buttons ' + activeItem" v-if="size == 'mobile'">
             <button @click="setActive('weather')" class="weather-button">
-                Today's Weather
+                Weather
             </button>
             <button @click="setActive('today')" class="today-button">
-                Today's Forecast
+                24 Hr
             </button>
             <button @click="setActive('week')" class="week-button">
-                Five Day Forecast
+                5 Day
             </button>
         </div>
     </div>
@@ -83,8 +83,8 @@ import { proper } from '../utils/helpers';
 export default class Weather extends Vue {
     @Prop() private msg!: String;
 
-    readonly tabletSize = 1300;
-    readonly mobileSize = 850;
+    readonly tabletSize = 1050;
+    readonly mobileSize = 765;
 
     weather!: WeatherRes;
     forecast!: ForecastRes | undefined;
@@ -243,14 +243,16 @@ export default class Weather extends Vue {
 
     .activation-buttons {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-evenly;
         margin: 0;
 
         button {
             background: transparent;
             border: none;
             margin: 10px 0;
-            font-size: 50px;
+            font-size: 7vw;
+            width: fit-content;
 
             box-shadow: 
                 6px 6px 6px 0 rgba(0, 0, 0, 0.247),
