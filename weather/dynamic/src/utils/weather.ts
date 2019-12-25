@@ -4,8 +4,8 @@ import {ForecastRes, ForecastItem, Time, ForecastClouds, ForecastWind} from '@/t
 
 const apId = 'a2562e8c0a361ae54423c1402545f3a1';
 const units = 'imperial';
-const weatherQuery = 'http://api.openweathermap.org/data/2.5/weather?q=';
-const forcastQuery = 'http://api.openweathermap.org/data/2.5/forecast?q=';
+const weatherQuery = 'https://api.openweathermap.org/data/2.5/weather?q=';
+const forcastQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=';
 
 function constructQuery(type: string, value: string): string {
     return type + value + ',US&units=imperial' + '&APPID=' + apId;
