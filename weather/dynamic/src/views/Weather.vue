@@ -161,10 +161,10 @@ export default class Weather extends Vue {
 @import '../scss/__stuff.scss';
 
 .weather {
-    width: 100%;
+    width: 90vw;
     display: flex;
     flex-direction: column;
-    margin: 10px;
+    margin: 10px auto;
 
     .heading {
         text-align: left;
@@ -298,4 +298,20 @@ export default class Weather extends Vue {
 
     }
 }
+
+// @media only screen and (max-width: 1600px) {
+//     .weather {
+//         max-width: 1025px;
+//     }
+// }  
+// @media only screen and (max-width: 1100px) {
+//     .weather {
+//         max-width: 760px;
+//     }
+// }  
+// @media only screen and (max-width: 800px) {
+//     .weather {
+//         max-width: 300px;
+//     }
+// }  
 </style>
