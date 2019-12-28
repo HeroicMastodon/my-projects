@@ -59,11 +59,12 @@
 // @ is an alias to /src
 import { Component, Vue, Prop } from 'vue-property-decorator';
 
-import WeatherCard from '@/components/WeatherCard.vue';
-import DetailCard from '@/components/DetailCard.vue';
 import Loader from '@/components/Loader.vue';
-import ForecastDay from '@/components/ForecastDay.vue';
-import ForecastWeek from '@/components/ForecastWeek.vue';
+
+const WeatherCard = () => import(/* webpackPrefetch: true */ '@/components/WeatherCard.vue');
+const DetailCard = () => import(/* webpackPrefetch: true */ '@/components/DetailCard.vue');
+const ForecastDay = () => import(/* webpackPrefetch: true */ '@/components/ForecastDay.vue');
+const ForecastWeek = () => import(/* webpackPrefetch: true */ '@/components/ForecastWeek.vue');
 
 import { WeatherRes } from '../types/WeatherRes';
 import { getWeather, getForecast } from '../utils/weather';
@@ -246,6 +247,10 @@ export default class Weather extends Vue {
         flex-direction: row;
         justify-content: space-evenly;
         margin: 0;
+        position: fixed;
+        top: 425px;
+        left: 0px;
+        width: 100%;
 
         button {
             background: transparent;
