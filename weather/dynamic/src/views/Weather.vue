@@ -275,7 +275,7 @@ export default class Weather extends Vue {
         button {
             background: transparent;
             border: none;
-            margin: 10px 0;
+            margin: 0 10px;
             font-size: 7vw;
             width: fit-content;
 
