@@ -87,6 +87,7 @@ export default class ForecastCard extends Vue {
 <style lang="scss" scoped>
 .forecast-card {
     display: flex;
+    z-index: -1;
     justify-content: space-evenly;
 
     &.vertical {

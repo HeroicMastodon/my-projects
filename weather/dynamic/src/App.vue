@@ -46,10 +46,11 @@ body {
 }
 
 .weather-nav {
-    font-size: 10px;
+    font-size: 20px;
 }
 
 .route {
+    z-index: -1;
     max-width: 1500px;
     // max-width: 1500px;
     display: flex;

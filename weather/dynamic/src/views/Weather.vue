@@ -38,7 +38,10 @@
             <div :class="'sub-heading ' + size">5 Day Forecast</div>
             <forecast-week :forecastList="forecast.list" :size="size" />
         </template>
-        <div :class="'activation-buttons ' + activeItem" v-if="size == 'mobile'">
+        <div
+            :class="'activation-buttons ' + activeItem"
+            v-if="size == 'mobile'"
+        >
             <button @click="setActive('weather')" class="weather-button">
                 Weather
             </button>
@@ -61,10 +64,26 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 import Loader from '@/components/Loader.vue';
 
-const WeatherCard = () => import(/* webpackPrefetch: true */ '@/components/WeatherCard.vue');
-const DetailCard = () => import(/* webpackPrefetch: true */ '@/components/DetailCard.vue');
-const ForecastDay = () => import(/* webpackPrefetch: true */ '@/components/ForecastDay.vue');
-const ForecastWeek = () => import(/* webpackPrefetch: true */ '@/components/ForecastWeek.vue');
+const WeatherCard = () => ({
+    component: import(/* webpackPrefetch: true */ '@/components/WeatherCard.vue') as any,
+    loading: Loader,
+    delay: 1
+});
+const DetailCard = () => ({
+    component: import(/* webpackPrefetch: true */ '@/components/DetailCard.vue') as any,
+    loading: Loader,
+    delay: 1
+});
+const ForecastDay = () => ({
+    component: import(/* webpackPrefetch: true */ '@/components/ForecastDay.vue') as any,
+    loading: Loader,
+    delay: 1
+});
+const ForecastWeek = () => ({
+    component: import(/* webpackPrefetch: true */ '@/components/ForecastWeek.vue') as any,
+    loading: Loader,
+    delay: 1
+});
 
 import { WeatherRes } from '../types/WeatherRes';
 import { getWeather, getForecast } from '../utils/weather';
@@ -165,6 +184,7 @@ export default class Weather extends Vue {
     display: flex;
     flex-direction: column;
     margin: 10px auto;
+    z-index: -1;
 
     .heading {
         text-align: left;
@@ -248,7 +268,7 @@ export default class Weather extends Vue {
         justify-content: space-evenly;
         margin: 0;
         position: fixed;
-        top: 425px;
+        top: 480px;
         left: 0px;
         width: 100%;
 
@@ -259,43 +279,35 @@ export default class Weather extends Vue {
             font-size: 7vw;
             width: fit-content;
 
-            box-shadow: 
-                6px 6px 6px 0 rgba(0, 0, 0, 0.247),
+            box-shadow: 6px 6px 6px 0 rgba(0, 0, 0, 0.247),
                 -6px -6px 6px 0 rgb(255, 255, 255);
 
             &:focus {
                 outline: none;
 
-                box-shadow: 
-                    inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
+                box-shadow: inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
                     inset -9px -9px 5px 0 rgb(255, 255, 255);
             }
-
-            
         }
 
         &.weather {
             .weather-button {
-                box-shadow: 
-                    inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
+                box-shadow: inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
                     inset -9px -9px 5px 0 rgb(255, 255, 255);
-            }     
+            }
         }
         &.today {
             .today-button {
-                box-shadow: 
-                    inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
+                box-shadow: inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
                     inset -9px -9px 5px 0 rgb(255, 255, 255);
-            }     
+            }
         }
         &.week {
             .week-button {
-                box-shadow: 
-                    inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
+                box-shadow: inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
                     inset -9px -9px 9px 0 rgb(255, 255, 255);
-            }     
+            }
         }
-
     }
 }
 
@@ -303,15 +315,15 @@ export default class Weather extends Vue {
 //     .weather {
 //         max-width: 1025px;
 //     }
-// }  
+// }
 // @media only screen and (max-width: 1100px) {
 //     .weather {
 //         max-width: 760px;
 //     }
-// }  
+// }
 // @media only screen and (max-width: 800px) {
 //     .weather {
 //         max-width: 300px;
 //     }
-// }  
+// }
 </style>

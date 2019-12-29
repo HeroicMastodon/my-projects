@@ -65,6 +65,8 @@ export default class ForecastWeek extends Vue{
     width: 100%;
     display: block;
     min-width: 0;
+    z-index: -1;
+
 
     &.mobile {
         height: 340px;

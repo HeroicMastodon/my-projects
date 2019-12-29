@@ -45,6 +45,7 @@ export default class WeatherCard extends Vue {
     width: 100%;
     background-color: #999999;
     height: 100%;
+    z-index: -1;
 
     .details {
         display: flex;

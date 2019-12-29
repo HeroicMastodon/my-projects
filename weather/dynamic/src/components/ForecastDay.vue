@@ -45,11 +45,12 @@ export default class ForecastDay extends Vue {
 <style lang="scss" scoped>
 .forecast {
     // width: 100%;
-    background-color: #3333;
+    // background-color: #3333;
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    z-index: -1;
     flex-wrap: wrap;
 
     &.tablet {

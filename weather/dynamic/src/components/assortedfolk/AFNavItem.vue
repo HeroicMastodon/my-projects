@@ -24,11 +24,16 @@ export default class NavItem extends Vue {
 </script>
 <style lang="scss" scoped>
 .nav-item {
+    width: 320px;
+    overflow: visible;
+
     .link {
         text-decoration: none;
         background-color: gray;
         color: black;
         font-size: 1em;
+        width: 100%;
+        
     }
 }
 </style>
