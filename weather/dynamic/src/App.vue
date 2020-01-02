@@ -2,6 +2,11 @@
     <div id="app">
         <nav-bar class="weather-nav">
             <template v-slot:brandContent>Brand</template>
+            <template v-slot:bars>
+                <router-link class="item" to="/">
+                    Your Places
+                </router-link>
+            </template>
         </nav-bar>
         <router-view class="route" :key="$router.currentRoute.fullPath" />
     </div>
@@ -14,7 +19,7 @@ import NavBar from '@/components/assortedfolk/AFNav.vue';
 import { Store } from 'vuex';
 import { WeatherRes } from './types/WeatherRes';
 import { WeatherState } from './store/weather/state';
-import { namespace } from '@/store/weather';
+import { namespace } from '@/store/user';
 
 @Component({
     components: {
@@ -24,7 +29,7 @@ import { namespace } from '@/store/weather';
 export default class App extends Vue {
     // @Action('fetchWeather', {namespace}) fetchWeather: any;
     // @Action('fetchForecast', {namespace}) fetchForecast: any;
-    // @State('weather', {namespace}) weather?: WeatherRes;
+    @State('user', {namespace}) user!: any;
     // @Getter('getWeather', {namespace}) getWeather: any;
 
     async created() {

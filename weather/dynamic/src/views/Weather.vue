@@ -121,13 +121,15 @@ export default class Weather extends Vue {
     forecast!: ForecastRes | undefined;
     loading: boolean = true;
     size: string = 'desktop';
-    location: string = 'springville, UT';
+    location: string = 'springville';
     date: string = 'Monday December 23';
     activeItem: string = 'weather';
     error: boolean = false;
 
     async created() {
-        console.log(this.$route.params);
+       if (this.$route.params) {
+           this.location = this.$route.params.place;
+       }
         if (window.innerWidth < this.mobileSize) {
             this.size = 'mobile';
         } else if (window.innerWidth < this.tabletSize) {

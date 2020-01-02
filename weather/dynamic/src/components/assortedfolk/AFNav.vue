@@ -12,6 +12,7 @@
                 </router-link>
             </div>
             <div class="bar-items">
+                <slot name="bars"></slot>
                 <!-- <nav-item to="/">
                 <template v-slot:link>
                     Some Link
