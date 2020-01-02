@@ -3,11 +3,11 @@
         <div class="group">
             <!-- temps -->
             <div class="detail">
-                <div class="value">{{ details.temp_min + '&deg;' }}</div>
+                <div class="value">{{ details.temp_max + '&deg;' }}</div>
                 <div class="name">High</div>
             </div>
             <div class="detail">
-                <div class="value">{{ details.temp_max + '&deg;' }}</div>
+                <div class="value">{{ details.temp_min + '&deg;' }}</div>
                 <div class="name">Low</div>
             </div>
         </div>
