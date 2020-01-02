@@ -89,7 +89,7 @@ export default class NavBar extends Vue {
                 overflow: hidden;
 
                 .item {
-                    width: 320px;
+                    width: 33vw;
                 }
             }
         }
@@ -103,6 +103,7 @@ export default class NavBar extends Vue {
         .toggle {
             margin: 20px 10px;
             transition: 0.5s;
+            width: 40px;
 
             .line {
                 width: 40px;
@@ -118,16 +119,16 @@ export default class NavBar extends Vue {
                 transform: rotate(180deg);
 
                 .line {
-                    // box-shadow: none;
+                    width: 39px;
 
                     &:first-child {
-                        transform: rotate(21deg) translatex(11px);
-                        width: 30px;
+                        transform: rotate(35deg) translate(15px, -7px);
+                        width: 25px;
                     }
 
                     &:last-child {
-                        transform: rotate(-21deg) translate(11px);
-                        width: 30px;
+                        transform: rotate(-35deg) translate(15px, 7px);
+                        width: 25px;
                     }
                 }
             }
