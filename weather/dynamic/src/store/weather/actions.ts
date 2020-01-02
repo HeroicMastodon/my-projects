@@ -10,7 +10,6 @@ export const actions: ActionTree<WeatherState, RootState> = {
         try {
             const weather = await getWeather(searchTerm);
             commit('weatherLoaded', weather);
-            console.log(weather);
         } catch (error) {
             throw error;
         }
@@ -19,7 +18,6 @@ export const actions: ActionTree<WeatherState, RootState> = {
         try {
             const forecast = await getForecast(searchTerm);
             commit('forecastLoaded', forecast);
-            console.log(forecast);
         } catch (error) {
             throw error;
         }

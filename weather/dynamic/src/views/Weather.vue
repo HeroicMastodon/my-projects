@@ -127,6 +127,7 @@ export default class Weather extends Vue {
     error: boolean = false;
 
     async created() {
+        console.log(this.$route.params);
         if (window.innerWidth < this.mobileSize) {
             this.size = 'mobile';
         } else if (window.innerWidth < this.tabletSize) {
@@ -143,6 +144,10 @@ export default class Weather extends Vue {
             }
 
             window.addEventListener('resize', this.handleResize);
+
+            let date = new Date().toDateString().split(' ');
+            this.date = date[0] + ', ' + date[1] + ' ' + date[2];
+
             this.loading = false;
             this.error = false;
         } catch (error) {
@@ -207,6 +212,7 @@ export default class Weather extends Vue {
 
     .heading {
         text-align: left;
+        align-self: flex-start;
 
         .location {
             font-size: 60px;
