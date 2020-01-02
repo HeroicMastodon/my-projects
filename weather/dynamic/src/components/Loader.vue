@@ -32,7 +32,6 @@ export default class Loader extends Vue {
 
     created() {
         if (!this.stroke) {
-            console.log('something');
             this.multi = 'multi';
         }
     }

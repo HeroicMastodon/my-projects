@@ -9,8 +9,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-
+import { Action, State, Getter } from 'vuex-class';
 import NavBar from '@/components/assortedfolk/AFNav.vue';
+import { Store } from 'vuex';
+import { WeatherRes } from './types/WeatherRes';
+import { WeatherState } from './store/weather/state';
+import { namespace } from '@/store/weather';
 
 @Component({
     components: {
@@ -18,8 +22,21 @@ import NavBar from '@/components/assortedfolk/AFNav.vue';
     }
 })
 export default class App extends Vue {
-    created() {
-        // console.log(this.$router.currentRoute.fullPath)
+    @Action('fetchWeather', {namespace}) fetchWeather: any;
+    @Action('fetchForecast', {namespace}) fetchForecast: any;
+    @State('weather', {namespace}) weather?: WeatherRes;
+    @Getter('getWeather', {namespace}) getWeather: any;
+
+    async created() {
+        await this.fetchWeather('provo');
+        await this.fetchForecast('provo');
+
+        await this.fetchWeather('springville');
+        console.log(this.getWeather);
+
+        if (this.weather != undefined) {
+            console.log(this.weather.details);
+        }
     }
 }
 </script>

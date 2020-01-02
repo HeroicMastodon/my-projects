@@ -61,6 +61,7 @@ export default class NavBar extends Vue {
             this.activeClass = 'active';
         } else {
             this.activeClass = '';
+            
         }
     }
 }
