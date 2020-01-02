@@ -12,7 +12,7 @@ export const actions: ActionTree<WeatherState, RootState> = {
             commit('weatherLoaded', weather);
             console.log(weather);
         } catch (error) {
-            console.error('something went wrong');
+            throw error;
         }
     },
     async fetchForecast({ commit }, searchTerm) {
@@ -21,7 +21,7 @@ export const actions: ActionTree<WeatherState, RootState> = {
             commit('forecastLoaded', forecast);
             console.log(forecast);
         } catch (error) {
-            console.error('something went wrong')
+            throw error;
         }
     }
 }

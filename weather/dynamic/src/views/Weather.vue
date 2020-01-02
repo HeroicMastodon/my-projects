@@ -53,6 +53,9 @@
             </button>
         </div>
     </div>
+    <div v-else-if="error">
+        Something went wrong retrieving the data.  Make sure you are spelling everything correctly or try again later.
+    </div>
     <div v-else>
         <loader stroke="#aa5555" />
     </div>
@@ -89,6 +92,10 @@ import { WeatherRes } from '../types/WeatherRes';
 import { getWeather, getForecast } from '../utils/weather';
 import { ForecastRes } from '../types/Forecast';
 import { proper } from '../utils/helpers';
+import { State, Action } from 'vuex-class';
+import { WeatherState } from '../store/weather/state';
+import { namespace } from '../store/weather';
+
 
 @Component({
     name: 'weather',
@@ -103,6 +110,10 @@ import { proper } from '../utils/helpers';
 export default class Weather extends Vue {
     @Prop() private msg!: String;
 
+    @State('weather') weatherState?: WeatherState;
+    @Action('fetchWeather', {namespace}) getWeather?: any;
+    @Action('fetchForecast', {namespace}) getForecast?: any;
+
     readonly tabletSize = 1050;
     readonly mobileSize = 765;
 
@@ -113,6 +124,7 @@ export default class Weather extends Vue {
     location: string = 'springville, UT';
     date: string = 'Monday December 23';
     activeItem: string = 'weather';
+    error: boolean = false;
 
     async created() {
         if (window.innerWidth < this.mobileSize) {
@@ -122,13 +134,20 @@ export default class Weather extends Vue {
         }
 
         try {
-            this.weather = await getWeather(this.location);
-            this.forecast = await getForecast(this.location);
+            await this.getWeather(this.location);
+            await this.getForecast(this.location);
+
+            if (this.weatherState != undefined) {
+                this.weather = this.weatherState.weather as WeatherRes;
+                this.forecast = this.weatherState.forecast as ForecastRes;
+            }
 
             window.addEventListener('resize', this.handleResize);
             this.loading = false;
+            this.error = false;
         } catch (error) {
             console.error(error);
+            this.error = true;
         }
     }
 
