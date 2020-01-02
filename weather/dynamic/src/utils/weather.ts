@@ -24,7 +24,7 @@ export async function getWeather(
     throw "request failed";
 }
 
-export async function getForecast(value: string) : Promise<ForecastRes | undefined> {
+export async function getForecast(value: string) : Promise<ForecastRes> {
     let query = constructQuery(forcastQuery, value);
     let res = await axios.get(query) || null;
 

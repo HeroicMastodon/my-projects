@@ -55,7 +55,7 @@ export default class DetailCard extends Vue {
     @Prop() size!: string;
 
     precipitation!: any;
-    weather: WeatherRes | undefined;
+    weather!: WeatherRes;
     place: string = 'springville';
     loading: Boolean = true;
     errMsg: String = 'Nothing to show here';

@@ -6,7 +6,7 @@ import { getWeather, getForecast } from '@/utils/weather';
 
 
 export const actions: ActionTree<WeatherState, RootState> = {
-    async fetchWeather({ commit }, searchTerm) {
+    async fetchWeather({ commit }, searchTerm) : Promise<void> {
         try {
             const weather = await getWeather(searchTerm);
             commit('weatherLoaded', weather);
@@ -14,7 +14,7 @@ export const actions: ActionTree<WeatherState, RootState> = {
             throw error;
         }
     },
-    async fetchForecast({ commit }, searchTerm) {
+    async fetchForecast({ commit }, searchTerm) : Promise<void> {
         try {
             const forecast = await getForecast(searchTerm);
             commit('forecastLoaded', forecast);
