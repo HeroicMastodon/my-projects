@@ -1,8 +1,7 @@
 <template>
     <div class="places" v-if="places.length > 0">
         <div class="place" v-for="(place, index) in places" :key="index">
-            <router-link :to="removeSpaces('/weather/' + place)" class="link">{{ place }}</router-link>
-            
+            <router-link :to="encodeURL('/weather/' + place)" class="link">{{ camelCase(place) }}</router-link>
         </div>
     </div>
     <div v-else>
@@ -14,6 +13,7 @@ import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { State } from 'vuex-class';
 import { namespace } from '@/store/user';
+import { camelCase } from '../utils/helpers';
 
 @Component({
     name: 'places',
@@ -24,11 +24,12 @@ export default class Places extends Vue {
 
     created() {}
 
-    removeSpaces(value: string): string {
-        let temp = value.replace(/\s/g, '\%20');
-        
-        console.log(encodeURI(value))
+    encodeURL(value: string): string {
         return encodeURI(value);
+    }
+
+    camelCase = (value: string) => {
+        return camelCase(value);
     }
 }
 </script>

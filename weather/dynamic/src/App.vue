@@ -6,6 +6,10 @@
                 <router-link class="item" to="/">
                     Your Places
                 </router-link>
+                <form class="search-wrapper" @submit.prevent="search()">
+                    <input type="text" name="search" placeholder="City, State, Country" v-model="searchTerm">
+                    <button class="search-button">Search</button>
+                </form>
             </template>
         </nav-bar>
         <router-view class="route" :key="$router.currentRoute.fullPath" />
@@ -27,21 +31,19 @@ import { namespace } from '@/store/user';
     }
 })
 export default class App extends Vue {
-    // @Action('fetchWeather', {namespace}) fetchWeather: any;
-    // @Action('fetchForecast', {namespace}) fetchForecast: any;
     @State('user', {namespace}) user!: any;
-    // @Getter('getWeather', {namespace}) getWeather: any;
+
+    searchTerm = '';
 
     async created() {
-        // await this.fetchWeather('provo');
-        // await this.fetchForecast('provo');
+    }
 
-        // await this.fetchWeather('springville');
-        // console.log(this.getWeather);
+    search() {
+        const path = '/weather/' + this.searchTerm;
 
-        // if (this.weather != undefined) {
-        //     console.log(this.weather.details);
-        // }
+        if (path != this.$route.fullPath && this.searchTerm != '') {
+            this.$router.push('/weather/' + this.searchTerm);
+        }
     }
 }
 </script>

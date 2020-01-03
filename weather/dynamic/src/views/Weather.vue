@@ -1,11 +1,20 @@
 <template>
     <div class="weather" v-if="!loading">
         <div :class="'heading ' + size">
-            <div class="location">
-                {{ proper(location) }}
+            <div class="location-wrapper">
+                <div class="location">
+                    {{ proper(location) }}
+                </div>
+                <div class="date">
+                    {{ date }}
+                </div>
             </div>
-            <div class="date">
-                {{ date }}
+            <div class="manage">
+                <div :class="isPlace(location) ? 'remove' : 'add'" @click="addRemove()">
+                    <div class="add-line"></div>
+                    <div class="add-line"></div>
+                </div>
+                <div class="default"></div>
             </div>
         </div>
         <div
@@ -54,7 +63,8 @@
         </div>
     </div>
     <div v-else-if="error">
-        Something went wrong retrieving the data.  Make sure you are spelling everything correctly or try again later.
+        Something went wrong retrieving the data. Make sure everything is
+        spelled correctly or try again later.
     </div>
     <div v-else>
         <loader stroke="#aa5555" />
@@ -68,22 +78,30 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 import Loader from '@/components/Loader.vue';
 
 const WeatherCard = () => ({
-    component: import(/* webpackPrefetch: true */ '@/components/WeatherCard.vue') as any,
+    component: import(
+        /* webpackPrefetch: true */ '@/components/WeatherCard.vue'
+    ) as any,
     loading: Loader,
     delay: 1
 });
 const DetailCard = () => ({
-    component: import(/* webpackPrefetch: true */ '@/components/DetailCard.vue') as any,
+    component: import(
+        /* webpackPrefetch: true */ '@/components/DetailCard.vue'
+    ) as any,
     loading: Loader,
     delay: 1
 });
 const ForecastDay = () => ({
-    component: import(/* webpackPrefetch: true */ '@/components/ForecastDay.vue') as any,
+    component: import(
+        /* webpackPrefetch: true */ '@/components/ForecastDay.vue'
+    ) as any,
     loading: Loader,
     delay: 1
 });
 const ForecastWeek = () => ({
-    component: import(/* webpackPrefetch: true */ '@/components/ForecastWeek.vue') as any,
+    component: import(
+        /* webpackPrefetch: true */ '@/components/ForecastWeek.vue'
+    ) as any,
     loading: Loader,
     delay: 1
 });
@@ -91,11 +109,10 @@ const ForecastWeek = () => ({
 import { WeatherRes } from '../types/WeatherRes';
 import { getWeather, getForecast } from '../utils/weather';
 import { ForecastRes } from '../types/Forecast';
-import { proper } from '../utils/helpers';
-import { State, Action } from 'vuex-class';
+import { proper, camelCase } from '../utils/helpers';
+import { State, Action, Getter, Mutation } from 'vuex-class';
 import { WeatherState } from '../store/weather/state';
 import { namespace } from '../store/weather';
-
 
 @Component({
     name: 'weather',
@@ -111,8 +128,13 @@ export default class Weather extends Vue {
     @Prop() private msg!: String;
 
     @State('weather') weatherState?: WeatherState;
-    @Action('fetchWeather', {namespace}) getWeather?: any;
-    @Action('fetchForecast', {namespace}) getForecast?: any;
+    @Action('fetchWeather', { namespace }) getWeather?: any;
+    @Action('fetchForecast', { namespace }) getForecast?: any;
+    @Getter('isPlace', { namespace: 'user' }) isPlace?: any;
+    @State('places', {namespace: 'user'}) places?: Array<string>;
+    @Mutation('addPlace', { namespace: 'user'}) addPlace?: any;
+    @Mutation('removePlace', {namespace: 'user'}) removePlace?: any;
+
 
     readonly tabletSize = 1050;
     readonly mobileSize = 765;
@@ -127,14 +149,16 @@ export default class Weather extends Vue {
     error: boolean = false;
 
     async created() {
-       if (this.$route.params) {
-           this.location = this.$route.params.place;
-       }
+        if (this.$route.params) {
+            this.location = this.$route.params.place;
+        }
         if (window.innerWidth < this.mobileSize) {
             this.size = 'mobile';
         } else if (window.innerWidth < this.tabletSize) {
             this.size = 'tablet';
         }
+
+        console.log(this.places);
 
         try {
             await this.getWeather(this.location);
@@ -181,7 +205,7 @@ export default class Weather extends Vue {
     }
 
     proper = (word: string) => {
-        return proper(word);
+        return camelCase(word);
     };
 
     setActive(item: string) {
@@ -199,6 +223,15 @@ export default class Weather extends Vue {
     showForecast() {
         this.activeItem = 'week';
     }
+
+    addRemove() {
+        if (this.isPlace(this.location)) {
+            this.removePlace(this.location);
+        }
+        else {
+            this.addPlace(this.location);
+        }
+    }
 }
 </script>
 
@@ -213,16 +246,65 @@ export default class Weather extends Vue {
     z-index: -1;
 
     .heading {
+        width: 100%;
         text-align: left;
         align-self: flex-start;
+        display: flex;
+        justify-content: space-between;
 
-        .location {
-            font-size: 60px;
-            font-weight: bold;
+        .location-wrapper {
+            .location {
+                font-size: 60px;
+                font-weight: bold;
+            }
+
+            .date {
+                font-size: 35px;
+            }
         }
 
-        .date {
-            font-size: 35px;
+        .manage {
+            border: 2px black solid;
+            display: flex;
+            flex-direction: column;
+
+            .add {
+                border: 2px black solid;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                .add-line {
+                    transition: 0.2s;
+                    width: 18px;
+                    height: 2px;
+                    background-color: black;
+
+                    &:last-child {
+                        transform: rotate(90deg) translateX(-1px);
+                    }
+                }
+            }
+
+            .remove {
+                border: 2px black solid;
+                width: 20px;
+                height: 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+
+                .add-line {
+                    transition: 0.2s;
+                    width: 18px;
+                    height: 1px;
+                    background-color: black;
+                }
+            }
         }
 
         &.mobile,
