@@ -10,7 +10,10 @@
                 </div>
             </div>
             <div class="manage">
-                <div :class="isPlace(location) ? 'remove' : 'add'" @click="addRemove()">
+                <div
+                    :class="isPlace(location) ? 'remove' : 'add'"
+                    @click="addRemove()"
+                >
                     <div class="add-line"></div>
                     <div class="add-line"></div>
                 </div>
@@ -66,6 +69,9 @@
         Something went wrong retrieving the data. Make sure everything is
         spelled correctly or try again later.
     </div>
+	<div v-else-if="searchOnly">
+		<p>Welcome to Assorted Folk's simple weather app. To get started, please login, create an account, or search for a place to view.</p>
+	</div>
     <div v-else>
         <loader stroke="#aa5555" />
     </div>
@@ -131,10 +137,9 @@ export default class Weather extends Vue {
     @Action('fetchWeather', { namespace }) getWeather?: any;
     @Action('fetchForecast', { namespace }) getForecast?: any;
     @Getter('isPlace', { namespace: 'user' }) isPlace?: any;
-    @State('places', {namespace: 'user'}) places?: Array<string>;
-    @Mutation('addPlace', { namespace: 'user'}) addPlace?: any;
-    @Mutation('removePlace', {namespace: 'user'}) removePlace?: any;
-
+    @State('places', { namespace: 'user' }) places?: Array<string>;
+    @Mutation('addPlace', { namespace: 'user' }) addPlace?: any;
+    @Mutation('removePlace', { namespace: 'user' }) removePlace?: any;
 
     readonly tabletSize = 1050;
     readonly mobileSize = 765;
@@ -147,21 +152,23 @@ export default class Weather extends Vue {
     date: string = 'Monday December 23';
     activeItem: string = 'weather';
     error: boolean = false;
+    searchOnly: boolean = false;
 
     async created() {
         if (this.$route.params.hasOwnProperty('place')) {
             this.location = this.$route.params.place;
-		}
-		else if (this.places != undefined) {
-			this.location = this.places[0];
-		}
+        } else if (this.places != undefined && this.places.length > 0) {
+            this.location = this.places[0];
+        } else {
+			this.loading = false;
+			this.searchOnly = true;
+        }
+
         if (window.innerWidth < this.mobileSize) {
             this.size = 'mobile';
         } else if (window.innerWidth < this.tabletSize) {
             this.size = 'tablet';
         }
-
-        console.log(this.places);
 
         try {
             await this.getWeather(this.location);
@@ -230,8 +237,7 @@ export default class Weather extends Vue {
     addRemove() {
         if (this.isPlace(this.location)) {
             this.removePlace(this.location);
-        }
-        else {
+        } else {
             this.addPlace(this.location);
         }
     }

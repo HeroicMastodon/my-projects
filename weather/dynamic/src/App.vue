@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+		<!-- Make nav sticky and put the page nav buttons here -->
         <nav-bar class="weather-nav">
             <template v-slot:brandContent>Brand</template>
             <template v-slot:bars>
