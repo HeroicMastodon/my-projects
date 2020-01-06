@@ -149,9 +149,12 @@ export default class Weather extends Vue {
     error: boolean = false;
 
     async created() {
-        if (this.$route.params) {
+        if (this.$route.params.hasOwnProperty('place')) {
             this.location = this.$route.params.place;
-        }
+		}
+		else if (this.places != undefined) {
+			this.location = this.places[0];
+		}
         if (window.innerWidth < this.mobileSize) {
             this.size = 'mobile';
         } else if (window.innerWidth < this.tabletSize) {

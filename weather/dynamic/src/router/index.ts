@@ -1,16 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Weather from '../views/Weather.vue';
-import Places from '../views/Places.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
-    {
-        path: '/',
-        name: 'places',
-        component: Places,
-    },
+	{
+		path: '/',
+		name: 'default',
+		component: Weather
+	},
     {
         path: '/weather/:place',
         name: 'more weather',

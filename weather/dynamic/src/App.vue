@@ -11,6 +11,9 @@
                     <button class="search-button">Search</button>
                 </form>
             </template>
+			<template v-slot:side>
+				<places/>
+			</template>
         </nav-bar>
         <router-view class="route" :key="$router.currentRoute.fullPath" />
     </div>
@@ -24,14 +27,16 @@ import { Store } from 'vuex';
 import { WeatherRes } from './types/WeatherRes';
 import { WeatherState } from './store/weather/state';
 import { namespace } from '@/store/user';
+import Places from '@/components/Places.vue';
 
 @Component({
     components: {
-        NavBar
+		NavBar,
+		Places
     }
 })
 export default class App extends Vue {
-    @State('user', {namespace}) user!: any;
+	@State('user', {namespace}) user!: any;
 
     searchTerm = '';
 

@@ -32,11 +32,7 @@
         </div>
         <div class="side">
             <div :class="'side-bar ' + activeClass">
-                <nav-item to="/">
-                    <template v-slot:link class="item">
-                        Some Link
-                    </template>
-                </nav-item>
+                <slot name="side"></slot>
             </div>
         </div>
     </div>
