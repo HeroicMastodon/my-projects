@@ -1,33 +1,11 @@
 <template>
-    <div class="wrap">
+    <div class="nav-wrap">
         <div class="bar">
-            <div :class="'toggle ' + activeClass" @click="activate()">
-                <div class="line"></div>
-                <div class="line"></div>
-                <div class="line"></div>
-            </div>
             <div class="brand">
-                <router-link :to="brandLink">
-                    <slot name="brandContent"></slot>
-                </router-link>
+                <slot name="brandContent"></slot>
             </div>
             <div class="bar-items">
                 <slot name="bars"></slot>
-                <!-- <nav-item to="/">
-                <template v-slot:link>
-                    Some Link
-                </template>
-            </nav-item>
-            <nav-item to="/">
-                <template v-slot:link>
-                    Some Link
-                </template>
-            </nav-item>
-            <nav-item to="/">
-                <template v-slot:link>
-                    Some Link
-                </template>
-            </nav-item> -->
             </div>
         </div>
         <div class="side">
@@ -51,20 +29,20 @@ import NavItem from './AFNavItem.vue';
 export default class NavBar extends Vue {
     brandLink = '/';
 
-    activeClass = '';
+    @Prop() activeClass = '';
 
-    activate() {
-        if (this.activeClass == '') {
-            this.activeClass = 'active';
-        } else {
-            this.activeClass = '';
+    // activate() {
+    //     if (this.activeClass == '') {
+    //         this.activeClass = 'active';
+    //     } else {
+    //         this.activeClass = '';
             
-        }
-    }
+    //     }
+    // }
 }
 </script>
-<style lang="scss" scoped>
-.wrap {
+<style lang="scss">
+.nav-wrap {
     position: relative;
 
     .side {
@@ -75,13 +53,12 @@ export default class NavBar extends Vue {
 
         .side-bar {
             height: 100%;
-            background-color: transparent;
+            background-color: #cfcfcf;
             width: 1px;
             transition: 0.5s;
             overflow: hidden;
 
             &.active {
-                background-color: black;
                 width: 320px;
                 z-index: 99;
                 overflow: hidden;
@@ -130,12 +107,6 @@ export default class NavBar extends Vue {
                     }
                 }
             }
-        }
-
-        .brand {
-            background-color: white;
-            padding: 10px;
-            margin: 10px;
         }
 
         .bar-items {

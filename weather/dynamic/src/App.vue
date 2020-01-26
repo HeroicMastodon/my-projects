@@ -1,20 +1,34 @@
 <template>
     <div id="app">
-		<!-- Make nav sticky and put the page nav buttons here -->
-        <nav-bar class="weather-nav">
-            <template v-slot:brandContent>Brand</template>
+        <!-- Make nav sticky and put the page nav buttons here -->
+        <nav-bar
+            class="weather-nav"
+            :active-class="sidebarOpen ? 'active' : ''"
+        >
+            <template v-slot:brandContent>
+                <div class="toggle-container" @click="toggle()">
+                    <toggle :active-class="sidebarOpen ? 'active' : ''" />
+                    <div class="item">
+                        <div>
+                            Your Places
+                        </div>
+                    </div>
+                </div>
+            </template>
             <template v-slot:bars>
-                <router-link class="item" to="/">
-                    Your Places
-                </router-link>
                 <form class="search-wrapper" @submit.prevent="search()">
-                    <input type="text" name="search" placeholder="City, State, Country" v-model="searchTerm">
-                    <button class="search-button">Search</button>
+                    <input
+                        type="text"
+                        name="search"
+                        placeholder="City, State, Country"
+                        v-model="searchTerm"
+                    />
+                    <button class="search-button" title="test">Search</button>
                 </form>
             </template>
-			<template v-slot:side>
-				<places/>
-			</template>
+            <template v-slot:side>
+                <places />
+            </template>
         </nav-bar>
         <router-view class="route" :key="$router.currentRoute.fullPath" />
     </div>
@@ -29,20 +43,22 @@ import { WeatherRes } from './types/WeatherRes';
 import { WeatherState } from './store/weather/state';
 import { namespace } from '@/store/user';
 import Places from '@/components/Places.vue';
+import Toggle from '@/components/assortedfolk/AFToggle.vue';
 
 @Component({
     components: {
-		NavBar,
-		Places
+        NavBar,
+        Places,
+        Toggle
     }
 })
 export default class App extends Vue {
-	@State('user', {namespace}) user!: any;
+    @State('user', { namespace }) user!: any;
 
     searchTerm = '';
+    sidebarOpen = false;
 
-    async created() {
-    }
+    async created() {}
 
     search() {
         const path = '/weather/' + this.searchTerm;
@@ -50,6 +66,10 @@ export default class App extends Vue {
         if (path != this.$route.fullPath && this.searchTerm != '') {
             this.$router.push('/weather/' + this.searchTerm);
         }
+    }
+
+    toggle() {
+        this.sidebarOpen = !this.sidebarOpen;
     }
 }
 </script>
@@ -88,5 +108,37 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.toggle-container {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+
+    &:hover {
+        cursor: pointer;
+    }
+    .item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.search-wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    input {
+        height: 15px;
+        margin-left: 10px;
+    }
+
+    button {
+        height: 25px;
+        margin-left: 10px;
+    }
 }
 </style>
