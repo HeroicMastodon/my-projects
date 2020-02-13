@@ -19,20 +19,18 @@ import { camelCase } from '../utils/helpers';
 
 @Component({
     name: 'places',
-    components: {}
+	components: {},
+	methods: {
+		camelCase: camelCase,
+		encodeURL: encodeURI,
+	}
 })
 export default class Places extends Vue {
-    @State('places', { namespace }) places!: Array<string>;
+    @State('places', namespace) places!: Array<string>;
 
-    created() {}
+    created() {
+	}
 
-    encodeURL(value: string): string {
-        return encodeURI(value);
-    }
-
-    camelCase = (value: string) => {
-        return camelCase(value);
-    };
 }
 </script>
 <style lang="scss" scoped>

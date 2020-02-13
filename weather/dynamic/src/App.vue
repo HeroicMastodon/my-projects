@@ -53,7 +53,7 @@ import Toggle from '@/components/assortedfolk/AFToggle.vue';
     }
 })
 export default class App extends Vue {
-    @State('user', { namespace }) user!: any;
+    @State('user', namespace) user!: any;
 
     searchTerm = '';
     sidebarOpen = false;

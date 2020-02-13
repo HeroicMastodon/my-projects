@@ -118,7 +118,8 @@ import { ForecastRes } from '../types/Forecast';
 import { proper, camelCase } from '../utils/helpers';
 import { State, Action, Getter, Mutation } from 'vuex-class';
 import { WeatherState } from '../store/weather/state';
-import { namespace } from '../store/weather';
+import { namespace as weatherNameSpace } from '../store/weather';
+import {namespace as userNameSpace, addPlace} from '../store/user';
 
 @Component({
     name: 'weather',
@@ -133,19 +134,19 @@ import { namespace } from '../store/weather';
 export default class Weather extends Vue {
     @Prop() private msg!: String;
 
-    @State('weather') weatherState?: WeatherState;
-    @Action('fetchWeather', { namespace }) getWeather?: any;
-    @Action('fetchForecast', { namespace }) getForecast?: any;
-    @Getter('isPlace', { namespace: 'user' }) isPlace?: any;
-    @State('places', { namespace: 'user' }) places?: Array<string>;
-    @Mutation('addPlace', { namespace: 'user' }) addPlace?: any;
-    @Mutation('removePlace', { namespace: 'user' }) removePlace?: any;
+    @State('weather') weatherState!: WeatherState;
+    @Action('fetchWeather', weatherNameSpace) getWeather!: Function;
+    @Action('fetchForecast', weatherNameSpace) getForecast!: Function;
+    @Getter('isPlace', userNameSpace) isPlace?: any;
+    @State('places', userNameSpace) places?: Array<string>;
+    @Mutation('addPlace', userNameSpace) addPlace!: addPlace;
+    @Mutation('removePlace', userNameSpace) removePlace!: Function;
 
     readonly tabletSize = 1050;
     readonly mobileSize = 765;
 
     weather!: WeatherRes;
-    forecast!: ForecastRes | undefined;
+    forecast!: ForecastRes;
     loading: boolean = true;
     size: string = 'desktop';
     location: string = 'springville';
@@ -172,12 +173,10 @@ export default class Weather extends Vue {
 
         try {
             await this.getWeather(this.location);
-            await this.getForecast(this.location);
+			await this.getForecast(this.location);
 
-            if (this.weatherState != undefined) {
-                this.weather = this.weatherState.weather as WeatherRes;
-                this.forecast = this.weatherState.forecast as ForecastRes;
-            }
+			this.weather = this.weatherState.weather as WeatherRes;
+            this.forecast = this.weatherState.forecast as ForecastRes;
 
             window.addEventListener('resize', this.handleResize);
 

@@ -4,6 +4,7 @@ import { RootState } from '../index';
 import { actions } from './actions';
 import { mutations } from './mutations';
 import { getters } from './getters';
+import { Namespace } from '@/types/Other';
 
 
 export const state: UserState = {
@@ -16,8 +17,14 @@ export const state: UserState = {
     ]
 }
 
+export interface addPlace {
+	(place: string): void;
+}
 
-export const namespace: string = 'user';
+
+export const namespace: Namespace = {
+	namespace: 'user'
+};
 
 
 export const user: Module<UserState, RootState> = {
