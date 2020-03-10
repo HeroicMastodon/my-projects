@@ -117,7 +117,7 @@ import { getWeather, getForecast } from '../utils/weather';
 import { ForecastRes } from '../types/Forecast';
 import { proper, camelCase } from '../utils/helpers';
 import { State, Action, Getter, Mutation } from 'vuex-class';
-import { WeatherState } from '../store/weather/state';
+import { WeatherState, names } from '../store/weather/state';
 import { namespace as weatherNameSpace } from '../store/weather';
 import {namespace as userNameSpace, addPlace} from '../store/user';
 
@@ -134,7 +134,7 @@ import {namespace as userNameSpace, addPlace} from '../store/user';
 export default class Weather extends Vue {
     @Prop() private msg!: String;
 
-    @State('weather') weatherState!: WeatherState;
+    @State(names.weather) weatherState!: WeatherState;
     @Action('fetchWeather', weatherNameSpace) getWeather!: Function;
     @Action('fetchForecast', weatherNameSpace) getForecast!: Function;
     @Getter('isPlace', userNameSpace) isPlace?: any;
