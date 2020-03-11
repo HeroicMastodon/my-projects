@@ -1,4 +1,4 @@
-export interface UserState {
-    user: any;
-    places: Array<string>;
-}
+// export interface UserState {
+//     user: any;
+//     places: Array<string>;
+// }

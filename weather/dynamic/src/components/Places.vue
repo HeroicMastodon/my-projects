@@ -14,8 +14,8 @@
 import Vue from 'vue';
 import { Component, Prop } from 'vue-property-decorator';
 import { State } from 'vuex-class';
-import { namespace } from '@/store/user';
 import { camelCase } from '../utils/helpers';
+import { State as storeState, stateFields } from '@/store/state';
 
 @Component({
     name: 'places',
@@ -26,7 +26,7 @@ import { camelCase } from '../utils/helpers';
 	}
 })
 export default class Places extends Vue {
-    @State('places', namespace) places!: Array<string>;
+    @State(stateFields.places) places!: Array<string>;
 
     created() {
 	}

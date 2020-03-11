@@ -18,16 +18,16 @@ export class WeatherRes {
         snow,
         timezone
     }: {
-        clouds: any;
-        coord: any;
-        main: any;
-        weather: any;
-        wind: any;
-        sys: any;
-        rain: any;
-            snow: any;
-            timezone: any;
-        }) {
+        clouds?: any;
+        coord?: any;
+        main?: any;
+        weather?: any;
+        wind?: any;
+        sys?: any;
+        rain?: any;
+        snow?: any;
+        timezone?: any;
+    }) {
         this.coordinates = {
             lattitude: coord.lat,
             longitude: coord.lon
@@ -60,19 +60,17 @@ export class WeatherRes {
 
         if (snow != undefined) {
             this.precip = {
-                type: "snow",
-                oneHour: snow["1h"],
-                threeHour: snow["3h"]
-            }
-        }
-        else if (rain != undefined) {
+                type: 'snow',
+                oneHour: snow['1h'],
+                threeHour: snow['3h']
+            };
+        } else if (rain != undefined) {
             this.precip = {
                 type: 'rain',
                 oneHour: rain['1h'],
                 threeHour: rain['3h']
             };
-        }
-        else {
+        } else {
             this.precip = null;
         }
     }

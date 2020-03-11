@@ -1,23 +1,18 @@
 import Vue from "vue";
 import Vuex, { StoreOptions } from "vuex";
-import { weather } from './weather';
-import { user } from './user';
+import { State, state } from './state';
+import { mutations } from './mutations';
+import { getters } from './getters';
+import { actions } from './actions';
 
 Vue.use(Vuex);
 
 
-export interface RootState {
-    
+const store: StoreOptions<State> = {
+    state,
+	actions,
+	mutations,
+	getters
 }
 
-const store: StoreOptions<RootState> = {
-    state: {
-        test: 'string'
-    },
-    modules: {
-        weather,
-        user
-    }
-}
-
-export default new Vuex.Store<RootState>(store);
+export default new Vuex.Store<State>(store);

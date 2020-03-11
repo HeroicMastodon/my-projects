@@ -40,10 +40,9 @@ import { Action, State, Getter } from 'vuex-class';
 import NavBar from '@/components/assortedfolk/AFNav.vue';
 import { Store } from 'vuex';
 import { WeatherRes } from './types/WeatherRes';
-import { WeatherState } from './store/weather/state';
-import { namespace } from '@/store/user';
 import Places from '@/components/Places.vue';
 import Toggle from '@/components/assortedfolk/AFToggle.vue';
+import { State as storeState, stateFields } from './store/state';
 
 @Component({
     components: {
@@ -53,7 +52,7 @@ import Toggle from '@/components/assortedfolk/AFToggle.vue';
     }
 })
 export default class App extends Vue {
-    @State('user', namespace) user!: any;
+    @State(stateFields.user) user!: any;
 
     searchTerm = '';
     sidebarOpen = false;

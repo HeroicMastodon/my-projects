@@ -117,9 +117,10 @@ import { getWeather, getForecast } from '../utils/weather';
 import { ForecastRes } from '../types/Forecast';
 import { proper, camelCase } from '../utils/helpers';
 import { State, Action, Getter, Mutation } from 'vuex-class';
-import { WeatherState, names } from '../store/weather/state';
-import { namespace as weatherNameSpace } from '../store/weather';
-import {namespace as userNameSpace, addPlace} from '../store/user';
+import { stateFields } from '../store/state';
+import { actionFields, fetchWeather, fetchForecast } from '../store/actions';
+import { getterFields, isPlace } from '../store/getters';
+import { mutationFields, addPlace, removePlace } from '../store/mutations';
 
 @Component({
     name: 'weather',
@@ -134,19 +135,18 @@ import {namespace as userNameSpace, addPlace} from '../store/user';
 export default class Weather extends Vue {
     @Prop() private msg!: String;
 
-    @State(names.weather) weatherState!: WeatherState;
-    @Action('fetchWeather', weatherNameSpace) getWeather!: Function;
-    @Action('fetchForecast', weatherNameSpace) getForecast!: Function;
-    @Getter('isPlace', userNameSpace) isPlace?: any;
-    @State('places', userNameSpace) places?: Array<string>;
-    @Mutation('addPlace', userNameSpace) addPlace!: addPlace;
-    @Mutation('removePlace', userNameSpace) removePlace!: Function;
+	@State(stateFields.weather) weather!: WeatherRes;
+	@State(stateFields.forecast) forecast!: ForecastRes;
+    @Action(actionFields.fetchWeather) getWeather!: fetchWeather;
+    @Action(actionFields.fetchForecast) getForecast!: fetchForecast;
+    @Getter(getterFields.isPlace) isPlace!: isPlace;
+    @State(stateFields.places) places!: Array<string>;
+    @Mutation(mutationFields.addPlace) addPlace!: addPlace;
+    @Mutation(mutationFields.removePlace) removePlace!: removePlace;
 
     readonly tabletSize = 1050;
     readonly mobileSize = 765;
 
-    weather!: WeatherRes;
-    forecast!: ForecastRes;
     loading: boolean = true;
     size: string = 'desktop';
     location: string = 'springville';
@@ -175,8 +175,8 @@ export default class Weather extends Vue {
             await this.getWeather(this.location);
 			await this.getForecast(this.location);
 
-			this.weather = this.weatherState.weather as WeatherRes;
-            this.forecast = this.weatherState.forecast as ForecastRes;
+			// this.weather = this.weatherState.weather as WeatherRes;
+            // this.forecast = this.weatherState.forecast as ForecastRes;
 
             window.addEventListener('resize', this.handleResize);
 
