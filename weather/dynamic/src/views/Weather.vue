@@ -11,20 +11,19 @@
             </div>
             <div class="manage">
                 <div class="button-group">
-                    <div class="label">
-                        {{
-                            isPlace(location)
-                                ? 'Add to My Places'
-                                : 'Remove from My Places'
-                        }}
-                    </div>
-                    <div
-                        :class="isPlace(location) ? 'remove' : 'add'"
-                        @click="addRemove()"
-                    >
-                        <div class="add-line"></div>
-                        <div class="add-line"></div>
-                    </div>
+                    <button class="add-button" @click="addRemove()">
+						<div class="button-text">
+							{{
+								!isPlace(location)
+									? 'Add to My Places'
+									: 'Remove from My Places'
+							}}
+						</div>
+                        <button :class="isPlace(location) ? 'remove' : 'add'">
+                            <div class="add-line"></div>
+                            <div class="add-line"></div>
+                        </button>
+                    </button>
                 </div>
                 <div class="button-group">
                     <button
@@ -90,17 +89,20 @@
         Something went wrong retrieving the data. Make sure everything is
         spelled correctly or try again later.
     </div>
-    <div v-else-if="searchOnly">
-		<template v-if="user">
-			Looks like you don't have a location! Search for a location in the top bar to see the weather.
-		</template>
-		<template v-else>
-			<p>
-				Welcome to Assorted Folk's simple weather app. To get started,
-				please login, create an account, or search for a place to view.
-			</p>
-			<auth/>
-		</template>
+    <div v-else-if="searchOnly" class="auth">
+        <template v-if="user">
+			<div class="message">
+            	Looks like you don't have a location! Search for a location in the
+            	top bar to see the weather.
+			</div>
+        </template>
+        <template v-else>
+            <p>
+                Welcome to Assorted Folk's simple weather app. To get started,
+                please login, create an account, or search for a place to view.
+            </p>
+            <auth />
+        </template>
     </div>
     <div v-else>
         <loader stroke="#aa5555" />
@@ -143,10 +145,12 @@ const ForecastWeek = () => ({
 });
 
 const Auth = () => ({
-	component: import(/* webpackPrefetch: true */ '@/components/Auth.vue') as any,
-	loading: Loader,
-	delay: 1
-})
+    component: import(
+        /* webpackPrefetch: true */ '@/components/Auth.vue'
+    ) as any,
+    loading: Loader,
+    delay: 1
+});
 
 import { WeatherRes } from '../types/WeatherRes';
 import { getWeather, getForecast } from '../utils/weather';
@@ -154,7 +158,12 @@ import { ForecastRes } from '../types/Forecast';
 import { proper, camelCase } from '../utils/helpers';
 import { State, Action, Getter, Mutation } from 'vuex-class';
 import { stateFields } from '../store/state';
-import { actionFields, fetchWeather, fetchForecast, updateDefaultLocation } from '../store/actions';
+import {
+    actionFields,
+    fetchWeather,
+    fetchForecast,
+    updateDefaultLocation
+} from '../store/actions';
 import { getterFields, isPlace, isDefaultPlace } from '../store/getters';
 import {
     mutationFields,
@@ -170,21 +179,22 @@ import {
         DetailCard,
         Loader,
         ForecastDay,
-		ForecastWeek,
-		Auth
+        ForecastWeek,
+        Auth
     }
 })
 export default class Weather extends Vue {
     @Prop() private msg!: String;
 
     @State(stateFields.weather) weather?: WeatherRes;
-	@State(stateFields.forecast) forecast?: ForecastRes;
-	@State(stateFields.defaultPlace) defaultPlace!: string;
-	@State(stateFields.user) user?: object | null;
+    @State(stateFields.forecast) forecast?: ForecastRes;
+    @State(stateFields.defaultPlace) defaultPlace!: string;
+    @State(stateFields.user) user?: object | null;
 
     @Action(actionFields.fetchWeather) getWeather!: fetchWeather;
     @Action(actionFields.fetchForecast) getForecast!: fetchForecast;
-    @Action(actionFields.updateDefaultLocation) setDefaultLocation!: updateDefaultLocation;
+    @Action(actionFields.updateDefaultLocation)
+    setDefaultLocation!: updateDefaultLocation;
 
     @Getter(getterFields.isPlace) isPlace!: isPlace;
     @Getter(getterFields.isDefaultPlace) isDefaultPlace!: isDefaultPlace;
@@ -209,14 +219,14 @@ export default class Weather extends Vue {
         if (this.$route.params.hasOwnProperty('place')) {
             this.location = this.$route.params.place;
         } else if (this.defaultPlace != '') {
-			this.location = this.defaultPlace;
-			this.loading = false;
+            this.location = this.defaultPlace;
+            this.loading = false;
         } else if (this.places.length > 0) {
-			this.location = this.places[0]
-			this.loading = false;
-		}else {
+            this.location = this.places[0];
+            // this.loading = false;
+        } else {
             this.searchOnly = true;
-		}
+        }
 
         if (window.innerWidth < this.mobileSize) {
             this.size = 'mobile';
@@ -224,23 +234,23 @@ export default class Weather extends Vue {
             this.size = 'tablet';
         }
 
-		if (this.location) {
-			try {
-				await this.getWeather(this.location);
-				await this.getForecast(this.location);
-	
-				window.addEventListener('resize', this.handleResize);
-	
-				let date = new Date().toDateString().split(' ');
-				this.date = date[0] + ', ' + date[1] + ' ' + date[2];
-	
-				this.loading = false;
-				this.error = false;
-			} catch (error) {
-				console.error(error);
-				this.error = true;
-			}
-		}
+        if (this.location) {
+            try {
+                await this.getWeather(this.location);
+                await this.getForecast(this.location);
+
+                window.addEventListener('resize', this.handleResize);
+
+                let date = new Date().toDateString().split(' ');
+                this.date = date[0] + ', ' + date[1] + ' ' + date[2];
+
+                this.loading = false;
+                this.error = false;
+            } catch (error) {
+                console.error(error);
+                this.error = true;
+            }
+        }
     }
 
     handleResize(event: Event) {
@@ -271,18 +281,6 @@ export default class Weather extends Vue {
 
     setActive(item: string) {
         this.activeItem = item;
-    }
-
-    showWeather() {
-        this.activeItem = 'weather';
-    }
-
-    showToday() {
-        this.activeItem = 'today';
-    }
-
-    showForecast() {
-        this.activeItem = 'week';
     }
 
     addRemove() {
@@ -324,48 +322,63 @@ export default class Weather extends Vue {
         }
 
         .manage {
-            border: 2px black solid;
             display: flex;
             flex-direction: column;
+			align-items: flex-end;
 
             .button-group {
                 display: flex;
+				margin-bottom: 10px;
 
-                .add {
-                    border: 2px black solid;
-                    width: 20px;
-                    height: 20px;
+                .add-button {
                     display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
+					height: fit-content;
+					align-items: center;
+					justify-content: space-between;
 
-                    .add-line {
-                        transition: 0.2s;
-                        width: 18px;
-                        height: 2px;
-                        background-color: black;
+					.button-text {
+						height: 100%;
+					}
 
-                        &:last-child {
-                            transform: rotate(90deg) translateX(-1px);
+                    .add {
+                        border: none;
+                        width: 20px;
+                        height: 20px;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+						margin-left: 5px;
+						
+
+                        .add-line {
+                            transition: 0.2s;
+                            width: 18px;
+                            height: 2px;
+                            background-color: black;
+
+                            &:last-child {
+                                transform: rotate(90deg) translateX(-2px);
+                            }
                         }
                     }
-                }
 
-                .remove {
-                    border: 2px black solid;
-                    width: 20px;
-                    height: 20px;
-                    display: flex;
-                    flex-direction: column;
-                    align-items: center;
-                    justify-content: center;
+                    .remove {
+                        border: none;
+                        width: 20px;
+                        height: 20px;
+						margin-left: 5px;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
 
-                    .add-line {
-                        transition: 0.2s;
-                        width: 18px;
-                        height: 1px;
-                        background-color: black;
+                        .add-line {
+                            transition: 0.2s;
+                            width: 18px;
+                            height: 1px;
+                            background-color: black;
+                        }
                     }
                 }
             }
@@ -483,6 +496,18 @@ export default class Weather extends Vue {
             }
         }
     }
+}
+
+.auth {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100vw;
+
+	.message {
+		width: fit-content;
+	}
 }
 
 // @media only screen and (max-width: 1600px) {

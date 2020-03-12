@@ -14,7 +14,7 @@ export interface Empty {
 }
 
 export const state: State = {
-	user: {},
+	user: null,
 	places: [/* 'springville', 'provo', 'sundance', 'salt lake city, Ut' */],
 	defaultPlace: '',
 	weather: {},
