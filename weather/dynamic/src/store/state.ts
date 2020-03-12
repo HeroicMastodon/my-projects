@@ -2,7 +2,7 @@ import { WeatherRes } from '@/types/WeatherRes';
 import { ForecastRes } from '@/types/Forecast';
 
 export interface State {
-    user: any | Empty;
+    user: object | null;
 	places: Array<string>;
 	defaultPlace: string;
     weather: WeatherRes | Empty;
@@ -14,7 +14,7 @@ export interface Empty {
 }
 
 export const state: State = {
-    user: {},
+	user: {},
 	places: [/* 'springville', 'provo', 'sundance', 'salt lake city, Ut' */],
 	defaultPlace: '',
 	weather: {},

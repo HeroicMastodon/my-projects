@@ -91,11 +91,16 @@
         spelled correctly or try again later.
     </div>
     <div v-else-if="searchOnly">
-        <p>
-            Welcome to Assorted Folk's simple weather app. To get started,
-            please login, create an account, or search for a place to view.
-        </p>
-		<auth></auth>
+		<template v-if="user">
+			Looks like you don't have a location! Search for a location in the top bar to see the weather.
+		</template>
+		<template v-else>
+			<p>
+				Welcome to Assorted Folk's simple weather app. To get started,
+				please login, create an account, or search for a place to view.
+			</p>
+			<auth/>
+		</template>
     </div>
     <div v-else>
         <loader stroke="#aa5555" />
@@ -175,6 +180,7 @@ export default class Weather extends Vue {
     @State(stateFields.weather) weather?: WeatherRes;
 	@State(stateFields.forecast) forecast?: ForecastRes;
 	@State(stateFields.defaultPlace) defaultPlace!: string;
+	@State(stateFields.user) user?: object | null;
 
     @Action(actionFields.fetchWeather) getWeather!: fetchWeather;
     @Action(actionFields.fetchForecast) getForecast!: fetchForecast;
