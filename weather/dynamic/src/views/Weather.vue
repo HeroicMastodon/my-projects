@@ -10,14 +10,35 @@
                 </div>
             </div>
             <div class="manage">
-                <div
-                    :class="isPlace(location) ? 'remove' : 'add'"
-                    @click="addRemove()"
-                >
-                    <div class="add-line"></div>
-                    <div class="add-line"></div>
+                <div class="button-group">
+                    <div class="label">
+                        {{
+                            isPlace(location)
+                                ? 'Add to My Places'
+                                : 'Remove from My Places'
+                        }}
+                    </div>
+                    <div
+                        :class="isPlace(location) ? 'remove' : 'add'"
+                        @click="addRemove()"
+                    >
+                        <div class="add-line"></div>
+                        <div class="add-line"></div>
+                    </div>
                 </div>
-                <div class="default"></div>
+                <div class="button-group">
+                    <button
+                        v-if="!isDefaultPlace(location)"
+                        class="button-group"
+                        type="button"
+                        @click="setDefaultLocation(location)"
+                    >
+                        Set as default location
+                    </button>
+                    <div v-else class="button-group">
+                        This is your default location
+                    </div>
+                </div>
             </div>
         </div>
         <div
@@ -69,9 +90,13 @@
         Something went wrong retrieving the data. Make sure everything is
         spelled correctly or try again later.
     </div>
-	<div v-else-if="searchOnly">
-		<p>Welcome to Assorted Folk's simple weather app. To get started, please login, create an account, or search for a place to view.</p>
-	</div>
+    <div v-else-if="searchOnly">
+        <p>
+            Welcome to Assorted Folk's simple weather app. To get started,
+            please login, create an account, or search for a place to view.
+        </p>
+		<auth></auth>
+    </div>
     <div v-else>
         <loader stroke="#aa5555" />
     </div>
@@ -112,15 +137,26 @@ const ForecastWeek = () => ({
     delay: 1
 });
 
+const Auth = () => ({
+	component: import(/* webpackPrefetch: true */ '@/components/Auth.vue') as any,
+	loading: Loader,
+	delay: 1
+})
+
 import { WeatherRes } from '../types/WeatherRes';
 import { getWeather, getForecast } from '../utils/weather';
 import { ForecastRes } from '../types/Forecast';
 import { proper, camelCase } from '../utils/helpers';
 import { State, Action, Getter, Mutation } from 'vuex-class';
 import { stateFields } from '../store/state';
-import { actionFields, fetchWeather, fetchForecast } from '../store/actions';
-import { getterFields, isPlace } from '../store/getters';
-import { mutationFields, addPlace, removePlace } from '../store/mutations';
+import { actionFields, fetchWeather, fetchForecast, updateDefaultLocation } from '../store/actions';
+import { getterFields, isPlace, isDefaultPlace } from '../store/getters';
+import {
+    mutationFields,
+    addPlace,
+    removePlace,
+    setDefaultLocation
+} from '../store/mutations';
 
 @Component({
     name: 'weather',
@@ -129,18 +165,26 @@ import { mutationFields, addPlace, removePlace } from '../store/mutations';
         DetailCard,
         Loader,
         ForecastDay,
-        ForecastWeek
+		ForecastWeek,
+		Auth
     }
 })
 export default class Weather extends Vue {
     @Prop() private msg!: String;
 
-	@State(stateFields.weather) weather!: WeatherRes;
-	@State(stateFields.forecast) forecast!: ForecastRes;
+    @State(stateFields.weather) weather?: WeatherRes;
+	@State(stateFields.forecast) forecast?: ForecastRes;
+	@State(stateFields.defaultPlace) defaultPlace!: string;
+
     @Action(actionFields.fetchWeather) getWeather!: fetchWeather;
     @Action(actionFields.fetchForecast) getForecast!: fetchForecast;
+    @Action(actionFields.updateDefaultLocation) setDefaultLocation!: updateDefaultLocation;
+
     @Getter(getterFields.isPlace) isPlace!: isPlace;
+    @Getter(getterFields.isDefaultPlace) isDefaultPlace!: isDefaultPlace;
+
     @State(stateFields.places) places!: Array<string>;
+
     @Mutation(mutationFields.addPlace) addPlace!: addPlace;
     @Mutation(mutationFields.removePlace) removePlace!: removePlace;
 
@@ -149,7 +193,7 @@ export default class Weather extends Vue {
 
     loading: boolean = true;
     size: string = 'desktop';
-    location: string = 'springville';
+    location: string = '';
     date: string = 'Monday December 23';
     activeItem: string = 'weather';
     error: boolean = false;
@@ -158,12 +202,15 @@ export default class Weather extends Vue {
     async created() {
         if (this.$route.params.hasOwnProperty('place')) {
             this.location = this.$route.params.place;
-        } else if (this.places != undefined && this.places.length > 0) {
-            this.location = this.places[0];
-        } else {
+        } else if (this.defaultPlace != '') {
+			this.location = this.defaultPlace;
 			this.loading = false;
-			this.searchOnly = true;
-        }
+        } else if (this.places.length > 0) {
+			this.location = this.places[0]
+			this.loading = false;
+		}else {
+            this.searchOnly = true;
+		}
 
         if (window.innerWidth < this.mobileSize) {
             this.size = 'mobile';
@@ -171,24 +218,23 @@ export default class Weather extends Vue {
             this.size = 'tablet';
         }
 
-        try {
-            await this.getWeather(this.location);
-			await this.getForecast(this.location);
-
-			// this.weather = this.weatherState.weather as WeatherRes;
-            // this.forecast = this.weatherState.forecast as ForecastRes;
-
-            window.addEventListener('resize', this.handleResize);
-
-            let date = new Date().toDateString().split(' ');
-            this.date = date[0] + ', ' + date[1] + ' ' + date[2];
-
-            this.loading = false;
-            this.error = false;
-        } catch (error) {
-            console.error(error);
-            this.error = true;
-        }
+		if (this.location) {
+			try {
+				await this.getWeather(this.location);
+				await this.getForecast(this.location);
+	
+				window.addEventListener('resize', this.handleResize);
+	
+				let date = new Date().toDateString().split(' ');
+				this.date = date[0] + ', ' + date[1] + ' ' + date[2];
+	
+				this.loading = false;
+				this.error = false;
+			} catch (error) {
+				console.error(error);
+				this.error = true;
+			}
+		}
     }
 
     handleResize(event: Event) {
@@ -276,41 +322,45 @@ export default class Weather extends Vue {
             display: flex;
             flex-direction: column;
 
-            .add {
-                border: 2px black solid;
-                width: 20px;
-                height: 20px;
+            .button-group {
                 display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
 
-                .add-line {
-                    transition: 0.2s;
-                    width: 18px;
-                    height: 2px;
-                    background-color: black;
+                .add {
+                    border: 2px black solid;
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
 
-                    &:last-child {
-                        transform: rotate(90deg) translateX(-1px);
+                    .add-line {
+                        transition: 0.2s;
+                        width: 18px;
+                        height: 2px;
+                        background-color: black;
+
+                        &:last-child {
+                            transform: rotate(90deg) translateX(-1px);
+                        }
                     }
                 }
-            }
 
-            .remove {
-                border: 2px black solid;
-                width: 20px;
-                height: 20px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
+                .remove {
+                    border: 2px black solid;
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
 
-                .add-line {
-                    transition: 0.2s;
-                    width: 18px;
-                    height: 1px;
-                    background-color: black;
+                    .add-line {
+                        transition: 0.2s;
+                        width: 18px;
+                        height: 1px;
+                        background-color: black;
+                    }
                 }
             }
         }

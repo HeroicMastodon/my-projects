@@ -2,22 +2,29 @@ import { WeatherRes } from '@/types/WeatherRes';
 import { ForecastRes } from '@/types/Forecast';
 
 export interface State {
-    user: any;
-    places: Array<string>;
-    weather?: WeatherRes;
-    forecast?: ForecastRes;
+    user: any | Empty;
+	places: Array<string>;
+	defaultPlace: string;
+    weather: WeatherRes | Empty;
+    forecast: ForecastRes | Empty;
+}
+
+export interface Empty {
+
 }
 
 export const state: State = {
     user: {},
-    places: ['springville', 'provo', 'sundance', 'salt lake city, Ut'],
-	weather: undefined,
-	forecast: undefined
+	places: [/* 'springville', 'provo', 'sundance', 'salt lake city, Ut' */],
+	defaultPlace: '',
+	weather: {},
+	forecast: {}
 };
 
 export const stateFields = {
     user: 'user',
     places: 'places',
     weather: 'weather',
-    forecast: 'forecast'
+	forecast: 'forecast',
+	defaultPlace: 'defaultPlace'
 };

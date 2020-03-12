@@ -3,41 +3,60 @@ import { State } from './state';
 import { WeatherRes } from '@/types/WeatherRes';
 import { ForecastRes } from '@/types/Forecast';
 
-export const mutations: MutationTree<State> = {
-    weatherLoaded(state, weather: WeatherRes) {
-        state.weather = weather;
-    },
-    forecastLoaded(state, forecast: ForecastRes) {
-        state.forecast = forecast;
-    },
-    addPlace(state, place: string) {
-        state.places.push(place);
-    },
-    removePlace(state, place: string) {
-        state.places.splice(state.places.indexOf(place), 1);
-    }
-};
-
-export const mutationFields = {
-	weatherLoaded: 'weatherLoaded',
-	forecastLoaded: 'forecastLoaded',
-	addPlace: 'addPlace',
-	removePlace: 'removePlace'
+function weatherLoaded(state: State, weather: WeatherRes) {
+    state.weather = weather;
 }
 
+export interface weatherLoaded {
+    (weather: WeatherRes): void;
+}
+
+function forecastLoaded(state: State, forecast: ForecastRes) {
+    state.forecast = forecast;
+}
+
+export interface forecastLoaded {
+    (forecast: ForecastRes): void;
+}
+
+function addPlace(state: State, place: string) {
+    state.places.push(place);
+}
 
 export interface addPlace {
     (place: string): void;
 }
 
+function removePlace(state: State, place: string) {
+    state.places.splice(state.places.indexOf(place), 1);
+}
+
 export interface removePlace {
-	(place: string): void
+    (place: string): void;
 }
 
-export interface forecastLoaded {
-	(forecast: ForecastRes): void;
+function setDefaultLocation(state: State, place: string) {
+	let places = state.places;
+	if (!places.includes(place)) places.push(place);
+    state.defaultPlace = place;
 }
 
-export interface weatherLoaded {
-	(weather: WeatherRes): void;
+export interface setDefaultLocation {
+    (place: string): void;
 }
+
+export const mutations: MutationTree<State> = {
+    weatherLoaded,
+    forecastLoaded,
+    addPlace,
+    removePlace,
+    setDefaultLocation
+};
+
+export const mutationFields = {
+    weatherLoaded: weatherLoaded.name,
+    forecastLoaded: forecastLoaded.name,
+    addPlace: addPlace.name,
+    removePlace: removePlace.name,
+    setDefaultLocation: setDefaultLocation.name
+};
