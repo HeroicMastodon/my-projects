@@ -2,6 +2,7 @@ import { MutationTree } from 'vuex';
 import { State } from './state';
 import { WeatherRes } from '@/types/WeatherRes';
 import { ForecastRes } from '@/types/Forecast';
+import { User } from '@/types/Other';
 
 function weatherLoaded(state: State, weather: WeatherRes) {
     state.weather = weather;
@@ -45,12 +46,21 @@ export interface setDefaultLocation {
     (place: string): void;
 }
 
+function setUser(state: State, user: User) {
+	state.user = user;
+	state.defaultPlace = user.defaultPlace;
+	state.places = user.places;
+} export interface setUser {
+	(user: User): void;
+}
+
 export const mutations: MutationTree<State> = {
     weatherLoaded,
     forecastLoaded,
     addPlace,
     removePlace,
-    setDefaultLocation
+	setDefaultLocation,
+	setUser
 };
 
 export const mutationFields = {
@@ -58,5 +68,6 @@ export const mutationFields = {
     forecastLoaded: forecastLoaded.name,
     addPlace: addPlace.name,
     removePlace: removePlace.name,
-    setDefaultLocation: setDefaultLocation.name
+	setDefaultLocation: setDefaultLocation.name,
+	setUser: setUser.name
 };

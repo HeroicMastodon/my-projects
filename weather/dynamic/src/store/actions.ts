@@ -3,6 +3,8 @@ import { State } from './state';
 
 import { getWeather, getForecast } from '@/utils/weather';
 import { mutationFields } from '@/store/mutations';
+import { LoginReq, RegisterReq } from '@/proxy/requests';
+import { User } from '@/types/Other';
 
 async function fetchWeather(
     { commit }: any,
@@ -46,14 +48,40 @@ export interface updateDefaultLocation {
 	(location: string): Promise<any>;
 }
 
+async function login({ commit }: any, request: LoginReq) {
+	try {
+		let user = new User(request.username, ['springville'], {}, 'springville');
+		commit(mutationFields.setUser, user);
+	} catch (error) {
+		throw error;
+	}
+} export interface LoginAction {
+	(request: LoginReq): Promise<any>;
+}
+
+async function register({ commit }: any, request: RegisterReq) {
+	try {
+		let user = new User(request.username, [], {}, '');
+		commit(mutationFields.setUser, user);
+	} catch (error) {
+		throw error;
+	}
+} export interface RegisterAction {
+	(request: RegisterReq): Promise<any>;
+}
+
 export const actions: ActionTree<State, State> = {
     fetchWeather,
 	fetchForecast,
-	updateDefaultLocation
+	updateDefaultLocation,
+	login,
+	register
 };
 
 export const actionFields = {
     fetchWeather: fetchWeather.name,
 	fetchForecast: fetchForecast.name,
-	updateDefaultLocation: updateDefaultLocation.name
+	updateDefaultLocation: updateDefaultLocation.name,
+	login: login.name,
+	register: register.name
 };

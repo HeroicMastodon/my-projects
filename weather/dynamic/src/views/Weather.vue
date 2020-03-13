@@ -97,11 +97,11 @@
 			</div>
         </template>
         <template v-else>
-            <p>
+            <div>
                 Welcome to Assorted Folk's simple weather app. To get started,
                 please login, create an account, or search for a place to view.
-            </p>
-            <auth />
+            </div>
+            <auth @login="initPage()" />
         </template>
     </div>
     <div v-else>
@@ -216,14 +216,18 @@ export default class Weather extends Vue {
     searchOnly: boolean = false;
 
     async created() {
-        if (this.$route.params.hasOwnProperty('place')) {
+        await this.initPage();
+	}
+	
+	async initPage() {
+		this.loading = true;
+		this.searchOnly = false;
+		if (this.$route.params.hasOwnProperty('place')) {
             this.location = this.$route.params.place;
         } else if (this.defaultPlace != '') {
             this.location = this.defaultPlace;
-            this.loading = false;
         } else if (this.places.length > 0) {
             this.location = this.places[0];
-            // this.loading = false;
         } else {
             this.searchOnly = true;
         }
@@ -251,7 +255,7 @@ export default class Weather extends Vue {
                 this.error = true;
             }
         }
-    }
+	}
 
     handleResize(event: Event) {
         const width = window.innerWidth;
@@ -504,6 +508,11 @@ export default class Weather extends Vue {
 	align-items: center;
 	justify-content: center;
 	width: 100vw;
+	max-width: 100vw;
+	
+	div {
+		width: calc(100% - 32px);
+	}
 
 	.message {
 		width: fit-content;
