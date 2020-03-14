@@ -140,4 +140,10 @@ body {
         margin-left: 10px;
     }
 }
+
+@media only screen and (max-width: 800px) {
+    .toggle-container .item {
+        display: none;
+    }
+}
 </style>
