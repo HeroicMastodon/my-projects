@@ -12,7 +12,7 @@ export class Proxy {
 	}
 
 	static async RegisterUser(req: RegisterReq) {
-		let res = await axios.post<any, AxiosResponse<User>>(this.URL_BASE + 'user', new RegisterReq('username', 'password', 'real name', 'email'));
+		let res = await axios.post<any, AxiosResponse<User>>(this.URL_BASE + 'user', req);
 		console.log(res.data);
 	}
 
