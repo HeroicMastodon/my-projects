@@ -5,6 +5,7 @@ import { getWeather, getForecast } from '@/utils/weather';
 import { mutationFields } from '@/store/mutations';
 import { LoginReq, RegisterReq } from '@/proxy/requests';
 import { User } from '@/types/Other';
+import { Proxy } from '@/proxy/proxy';
 
 async function fetchWeather(
     { commit }: any,
@@ -61,6 +62,7 @@ async function login({ commit }: any, request: LoginReq) {
 
 async function register({ commit }: any, request: RegisterReq) {
 	try {
+		await Proxy.RegisterUser(request);
 		let user = new User(request.username, [], {}, '');
 		commit(mutationFields.setUser, user);
 	} catch (error) {
