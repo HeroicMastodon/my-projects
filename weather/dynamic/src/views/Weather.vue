@@ -1,5 +1,5 @@
 <template>
-    <div class="weather" v-if="!loading">
+    <div class="weather" v-if="!loading && weather && forecast">
         <div :class="'heading ' + size">
             <div class="location-wrapper">
                 <div class="location">
