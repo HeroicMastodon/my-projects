@@ -156,7 +156,7 @@ import { WeatherRes } from '../types/WeatherRes';
 import { getWeather, getForecast } from '../utils/weather';
 import { ForecastRes } from '../types/Forecast';
 import { proper, camelCase } from '../utils/helpers';
-import { State, Action, Getter, Mutation } from 'vuex-class';
+import {  Action, Getter, Mutation, State} from 'vuex-class';
 import { stateFields } from '../store/state';
 import {
     actionFields,
@@ -186,6 +186,7 @@ import {
 export default class Weather extends Vue {
     @Prop() private msg!: String;
 
+@State
     @State(stateFields.weather) weather?: WeatherRes;
     @State(stateFields.forecast) forecast?: ForecastRes;
     @State(stateFields.defaultPlace) defaultPlace!: string;

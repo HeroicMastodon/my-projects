@@ -5,3 +5,7 @@ export interface LoginRes {
 	places: Array<string>;
 	defaultPlace: string;
 }
+
+export interface ErrorRes {
+	detail: string;
+}

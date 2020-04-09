@@ -1,4 +1,4 @@
-export class LoginReq {
+export class LoginReq implements ServerRequest {
 	username = '';
 	password = '';
 
@@ -6,9 +6,13 @@ export class LoginReq {
 		if (username != null) this.username = username;
 		if (password != null) this.password = password;
 	}
+
+	isValid() {
+		return this.username != '' && this.password != '';
+	}
 }
 
-export class RegisterReq {
+export class RegisterReq implements ServerRequest {
 	username = '';
 	password = '';
 	realName = '';
@@ -24,4 +28,12 @@ export class RegisterReq {
 	static something() {
 		
 	}
+
+	isValid() {
+		return this.username != '' && this.password != '' && this.realName != '' && this.email != '';
+	}
+}
+
+export interface ServerRequest {
+	isValid(): boolean;
 }

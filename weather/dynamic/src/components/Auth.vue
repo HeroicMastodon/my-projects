@@ -73,16 +73,27 @@ export default class Auth extends Vue {
 	}
 
 	async login() {
+		if (! this.loginReq.isValid()) {
+			this.error = 'Username and password are both required.'
+			return;
+		};
+
 		this.loginAction(this.loginReq);
 		this.$emit('login');
 		console.log(this.loginReq);
 	}
 
 	async register() {
+		if (! this.registerReq.isValid()) {
+			this.error = 'All fields must be filled in';
+			return;
+		}
+
 		if (this.registerReq.password !== this.confirmPassword) {
 			this.error = 'Password fields do not match.'
 			return;
 		}
+		
 		this.registerAction(this.registerReq);
 	}
 }

@@ -7,6 +7,8 @@ import { LoginReq, RegisterReq } from '@/proxy/requests';
 import { User } from '@/types/Other';
 import { Proxy } from '@/proxy/proxy';
 
+// TODO: Make all fucntions return error strings.
+
 async function fetchWeather(
     { commit }: any,
     searchTerm: string
@@ -46,30 +48,30 @@ async function updateDefaultLocation({ commit }: any, location: string) {
 	}
 }
 export interface updateDefaultLocation {
-	(location: string): Promise<any>;
+	(location: string): Promise<void>;
 }
 
 async function login({ commit }: any, request: LoginReq) {
 	try {
-		let user = new User(request.username, ['springville'], {}, 'springville');
+		let user = await Proxy.LoginUser(request);
 		commit(mutationFields.setUser, user);
 	} catch (error) {
 		throw error;
 	}
 } export interface LoginAction {
-	(request: LoginReq): Promise<any>;
+	(request: LoginReq): Promise<void>;
 }
 
-async function register({ commit }: any, request: RegisterReq) {
+async function register({ commit }: any, request: RegisterReq): Promise<String> {
 	try {
-		await Proxy.RegisterUser(request);
-		let user = new User(request.username, [], {}, '');
+		let user = await Proxy.RegisterUser(request);
 		commit(mutationFields.setUser, user);
+		return '';
 	} catch (error) {
 		throw error;
 	}
 } export interface RegisterAction {
-	(request: RegisterReq): Promise<any>;
+	(request: RegisterReq): Promise<String>;
 }
 
 export const actions: ActionTree<State, State> = {

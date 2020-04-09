@@ -1,22 +1,56 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 import { RegisterReq, LoginReq } from './requests';
 import { User } from '@/types/Other';
+import { ErrorRes } from './response';
+import { ProxyError } from './proxyError';
+
+const client = axios.create({
+	baseURL: '/api/weather',
+	responseType: 'json',
+	headers: {
+		'Content-Type': 'application/json'
+	}
+})
 
 export class Proxy {
-	static readonly URL_BASE: string = 'http://localhost:5000/';
-
 	static async AuthenticateUser(token:string) {
-		let res = await axios.get<any, AxiosResponse<User>>(this.URL_BASE + 'user');
-		let data = res.data;
-		console.log(data);
+		try {let res = await client.get<User>('weather');
+			let data = res.data;
+			console.log(data);
+			return data;
+		} catch (e) {
+			this.handleError(e);
+		}
 	}
 
 	static async RegisterUser(req: RegisterReq) {
-		let res = await axios.post<any, AxiosResponse<User>>(this.URL_BASE + 'user', req);
-		console.log(res.data);
+		try {
+			let res = await client.post<User>('register', req);
+			console.log(res.data);
+			let data = res.data;
+			return data;
+		} catch (e) {
+			this.handleError(e);
+		}
 	}
 
-	async LoginUser(req: LoginReq) {
+	static async LoginUser(req: LoginReq) {
+		try {
+			let res = await client.post<User>('login', req);
+			console.log(res.data);
+			let data = res.data;
+			return data;
+		} catch (error) {
+			this.handleError(error);
+		}
+	}
 
+	private static handleError(e: any) {
+		let error: AxiosError<ErrorRes> = e;
+		if (error && error.response) {
+			throw new ProxyError(error.response.data.detail);
+		}
+
+		throw new ProxyError("An error occured");
 	}
 }
