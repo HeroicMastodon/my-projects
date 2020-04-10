@@ -28,7 +28,7 @@
             </template>
             <template v-slot:side>
 				<template v-if="user">
-					<places />
+					<places @selected="toggle()" />
 					<button class="redirect-button" @click="logoutUser()">Logout</button>
 				</template>
 				<template  v-else>

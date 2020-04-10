@@ -1,10 +1,10 @@
 <template>
     <div class="places" v-if="places.length > 0">
-        <div class="place" v-for="(place, index) in places" :key="index">
+        <div class="place" v-for="(place, index) in places" :key="index" @click="$emit('selected')">
             <router-link :to="encodeURL('/weather/' + place)" class="link">{{
-                camelCase(place)
-            }}</router-link>
-			<div v-if="isDefaultPlace(place)">(<i>default</i>)</div>
+                camelCase(place) }}
+			<template v-if="isDefaultPlace(place)">(<i>default</i>)</template>
+            </router-link>
         </div>
     </div>
     <div v-else>
@@ -51,6 +51,12 @@ export default class Places extends Vue {
         width: 100%;
         text-align: left;
 		display: flex;
+		width: 100%;
+
+		.link {
+			width: 100%;
+			text-align: center;
+		}
 
         .router-link-active {
             background-color: black;
