@@ -3,6 +3,11 @@ import { State } from './state';
 import { WeatherRes } from '@/types/WeatherRes';
 import { ForecastRes } from '@/types/Forecast';
 import { User } from '@/types/Other';
+import { LoginRes } from '@/proxy/response';
+
+function handleError(e: any) {
+	
+}
 
 function weatherLoaded(state: State, weather: WeatherRes) {
     state.weather = weather;
@@ -48,10 +53,25 @@ export interface setDefaultLocation {
 
 function setUser(state: State, user: User) {
 	state.user = user;
-	state.defaultPlace = user.defaultPlace;
-	state.places = user.places;
 } export interface setUser {
 	(user: User): void;
+}
+
+function init(state: State, data: LoginRes) {
+	state.user = data.user;
+	state.defaultPlace = data.defaultPlace;
+	state.places = data.places;
+} export interface init {
+	(data: LoginRes): void;
+}
+
+function resetState(state: State) {
+	state.user = null;
+	state.defaultPlace = '';
+	state.places = [];
+}
+export interface resetState {
+	(): void;
 }
 
 export const mutations: MutationTree<State> = {
@@ -60,7 +80,9 @@ export const mutations: MutationTree<State> = {
     addPlace,
     removePlace,
 	setDefaultLocation,
-	setUser
+	setUser,
+	init,
+	resetState,
 };
 
 export const mutationFields = {
@@ -69,5 +91,7 @@ export const mutationFields = {
     addPlace: addPlace.name,
     removePlace: removePlace.name,
 	setDefaultLocation: setDefaultLocation.name,
-	setUser: setUser.name
+	setUser: setUser.name,
+	init: init.name,
+	resetState: resetState.name,
 };

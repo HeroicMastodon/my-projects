@@ -1,38 +1,57 @@
 import { WeatherRes } from '../types/WeatherRes';
 import axios, { AxiosResponse } from 'axios';
 import {ForecastRes, ForecastItem, Time, ForecastClouds, ForecastWind} from '@/types/Forecast';
+import { ProxyError } from '@/proxy/proxyError';
 
 const apId = 'a2562e8c0a361ae54423c1402545f3a1';
 const units = 'imperial';
 const weatherQuery = 'https://api.openweathermap.org/data/2.5/weather?q=';
 const forcastQuery = 'https://api.openweathermap.org/data/2.5/forecast?q=';
+const client = axios.create({
+	baseURL: 'https://api.openweathermap.org/data/2.5/'
+});
 
-function constructQuery(type: string, value: string): string {
-    return type + value + ',US&units=imperial' + '&APPID=' + apId;
+function constructQuery(type: string, city: string, state: string = 'Utah', country: string = 'US'): string {
+    return type + city + ',' + state + ',' + country + '&units=imperial' + '&APPID=' + apId;
 }
 
 export async function getWeather(
-    value: string
+	city: string,
+	state: string = 'Utah',
+	country: string = 'Us'
 ): Promise<WeatherRes> {
-    let query = constructQuery(weatherQuery, value);
-    let res = (await axios.get(query)) || null;
+	try {
+		let query = constructQuery(weatherQuery, city, state, country);
+		let res = (await client.get(query)) || null;
+	
+		if (res != null) {
+			return new WeatherRes(res.data);
+		}
 
-    if (res != null) {
-        return new WeatherRes(res.data);
-    }
+		throw new ProxyError("Unable to retrieve weather");
+	} catch (e) {
+		throw new ProxyError("Unable to retrieve weather");
+	}
 
-    throw "request failed";
 }
 
-export async function getForecast(value: string) : Promise<ForecastRes> {
-    let query = constructQuery(forcastQuery, value);
-    let res = await axios.get(query) || null;
+export async function getForecast(
+           city: string,
+           state: string = 'Utah',
+           country: string = 'US'
+): Promise<ForecastRes> {
+	try {
+		let query = constructQuery(forcastQuery, city);
+		let res = (await client.get(query)) || null;
+	
+		if (res != null) {
+			return new ForecastRes(res.data);
+		}
 
-    if (res != null) {
-        return new ForecastRes(res.data);
-    }
-
-    throw "request failed";
+		throw new ProxyError('Unable to retrieve forecast')
+	} catch (e) {
+		throw 'Unable to retrive forecast';
+	}
 }
 
 export function getDayFromHourlyForecast(list: Array<ForecastItem>): ForecastItem {

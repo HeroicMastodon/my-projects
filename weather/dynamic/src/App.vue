@@ -27,7 +27,14 @@
                 </form>
             </template>
             <template v-slot:side>
-                <places />
+				<template v-if="user">
+					<places />
+					<button class="redirect-button" @click="logoutUser()">Logout</button>
+				</template>
+				<template  v-else>
+					<div>Login or register to save places you want to see!</div>
+					<button v-if="$route.fullPath != '/'" class="redirect-button" @click="redirectToLogin()">Login or Register</button>
+				</template>
             </template>
         </nav-bar>
         <router-view class="route" :key="$router.currentRoute.fullPath" />
@@ -43,6 +50,8 @@ import { WeatherRes } from './types/WeatherRes';
 import Places from '@/components/Places.vue';
 import Toggle from '@/components/assortedfolk/AFToggle.vue';
 import { State as storeState, stateFields } from './store/state';
+import { User } from './types/Other';
+import { actionFields, LogoutAction } from './store/actions';
 
 @Component({
     components: {
@@ -52,7 +61,9 @@ import { State as storeState, stateFields } from './store/state';
     }
 })
 export default class App extends Vue {
-    @State(stateFields.user) user!: any;
+	@State(stateFields.user) user!: User | null;
+	
+	@Action(actionFields.logout) logout!: LogoutAction;
 
     searchTerm = '';
     sidebarOpen = false;
@@ -69,7 +80,17 @@ export default class App extends Vue {
 
     toggle() {
         this.sidebarOpen = !this.sidebarOpen;
-    }
+	}
+
+	async logoutUser() {
+		await this.logout();
+		this.$router.go(0);
+	}
+	
+	redirectToLogin() {
+		this.$router.replace('/');
+		this.sidebarOpen = false;
+	}
 }
 </script>
 

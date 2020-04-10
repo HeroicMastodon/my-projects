@@ -9,7 +9,7 @@
                     {{ date }}
                 </div>
             </div>
-            <div class="manage">
+            <div v-if="user" class="manage">
                 <div class="button-group">
                     <button class="add-button" @click="addRemove()">
 						<div class="button-text">
@@ -92,7 +92,7 @@
     <div v-else-if="searchOnly" class="auth">
         <template v-if="user">
 			<div class="message">
-            	Looks like you don't have a location! Search for a location in the
+            	Welcome {{user.realName}}! Looks like you don't have a saved location! Search for a location in the
             	top bar to see the weather.
 			</div>
         </template>
@@ -101,7 +101,7 @@
                 Welcome to Assorted Folk's simple weather app. To get started,
                 please login, create an account, or search for a place to view.
             </div>
-            <auth @login="initPage()" />
+            <auth />
         </template>
     </div>
     <div v-else>
@@ -162,7 +162,10 @@ import {
     actionFields,
     fetchWeather,
     fetchForecast,
-    updateDefaultLocation
+    updateDefaultLocation,
+	GetUserAction,
+	addNewPlace,
+    LoginAction
 } from '../store/actions';
 import { getterFields, isPlace, isDefaultPlace } from '../store/getters';
 import {
@@ -171,6 +174,7 @@ import {
     removePlace,
     setDefaultLocation
 } from '../store/mutations';
+import { User } from '../types/Other';
 
 @Component({
     name: 'weather',
@@ -190,19 +194,21 @@ export default class Weather extends Vue {
     @State(stateFields.weather) weather?: WeatherRes;
     @State(stateFields.forecast) forecast?: ForecastRes;
     @State(stateFields.defaultPlace) defaultPlace!: string;
-    @State(stateFields.user) user?: object | null;
+    @State(stateFields.user) user?: User | null;
 
     @Action(actionFields.fetchWeather) getWeather!: fetchWeather;
     @Action(actionFields.fetchForecast) getForecast!: fetchForecast;
     @Action(actionFields.updateDefaultLocation)
-    setDefaultLocation!: updateDefaultLocation;
+	setDefaultLocation!: updateDefaultLocation;
+	@Action(actionFields.getUser) getUser!: GetUserAction;
+	@Action(actionFields.addNewPlace) addPlace!: addNewPlace;
 
     @Getter(getterFields.isPlace) isPlace!: isPlace;
     @Getter(getterFields.isDefaultPlace) isDefaultPlace!: isDefaultPlace;
 
     @State(stateFields.places) places!: Array<string>;
 
-    @Mutation(mutationFields.addPlace) addPlace!: addPlace;
+    // @Mutation(mutationFields.addPlace) addPlace!: addPlace;
     @Mutation(mutationFields.removePlace) removePlace!: removePlace;
 
     readonly tabletSize = 1050;
@@ -217,6 +223,13 @@ export default class Weather extends Vue {
     searchOnly: boolean = false;
 
     async created() {
+		if (! this.user) {
+			try {
+				await this.getUser();
+			} catch (error) {
+				console.error(error);
+			}
+		}
         await this.initPage();
 	}
 	
@@ -226,7 +239,7 @@ export default class Weather extends Vue {
 		if (this.$route.params.hasOwnProperty('place')) {
             this.location = this.$route.params.place;
         } else if (this.defaultPlace != '') {
-            this.location = this.defaultPlace;
+			this.$router.push('/weather/' + this.defaultPlace);
         } else if (this.places.length > 0) {
             this.location = this.places[0];
         } else {
@@ -241,8 +254,15 @@ export default class Weather extends Vue {
 
         if (this.location) {
             try {
-                await this.getWeather(this.location);
-                await this.getForecast(this.location);
+				let split = this.location.split(',');
+				if (split.length === 1) {
+					split.push('');
+				}
+				if (split.length === 2) {
+					split.push('')
+				}
+                await this.getWeather(split[0], split[1], split[2]);
+                await this.getForecast(split[0]), split[1], split[2];
 
                 window.addEventListener('resize', this.handleResize);
 

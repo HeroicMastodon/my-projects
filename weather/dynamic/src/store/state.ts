@@ -1,8 +1,9 @@
 import { WeatherRes } from '@/types/WeatherRes';
 import { ForecastRes } from '@/types/Forecast';
+import { User } from '@/types/Other';
 
 export interface State {
-    user: object | null;
+    user: User | null;
 	places: Array<string>;
 	defaultPlace: string;
     weather: WeatherRes | Empty;
