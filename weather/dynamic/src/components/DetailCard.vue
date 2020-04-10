@@ -111,7 +111,7 @@ export default class DetailCard extends Vue {
     z-index: -1;
     height: 100%;
 
-    background-color: #2222;
+    background-color: $darkBlue;
 
     .group {
         display: flex;

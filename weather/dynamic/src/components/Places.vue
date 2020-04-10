@@ -7,8 +7,10 @@
             </router-link>
         </div>
     </div>
-    <div v-else>
-        You have not saved any locations.
+    <div v-else class="places">
+		<div class="place">
+        	You have not saved any locations.
+		</div>
     </div>
 </template>
 <script lang="ts">
@@ -37,6 +39,8 @@ export default class Places extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+@import '../scss/__stuff.scss';
+
 .places {
     display: flex;
     flex-direction: column;
@@ -54,12 +58,18 @@ export default class Places extends Vue {
 		width: 100%;
 
 		.link {
-			width: 100%;
+			padding: 8px 0;
+			text-decoration: none;
+			width: calc(100% - 16px);
 			text-align: center;
+			color: $grayText;
+			font-weight: bold;
 		}
 
         .router-link-active {
-            background-color: black;
+			background-color: $blue;
+			color: $darkBlueText;
+			font-weight: initial;
         }
     }
 }

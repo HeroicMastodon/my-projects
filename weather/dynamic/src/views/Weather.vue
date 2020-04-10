@@ -12,7 +12,7 @@
             <div v-if="user" class="manage">
                 <div class="button-group">
                     <button class="add-button" @click="addRemove()">
-						<div class="button-text">
+						<div class="button-text" v-if="size != 'mobile'">
 							{{
 								!isPlace(location)
 									? 'Add to My Places'
@@ -32,10 +32,16 @@
                         type="button"
                         @click="setDefaultLocation(location)"
                     >
-                        Set as default location
+                        Set default
+						<template v-if="size != 'mobile'">
+							location
+						</template>
                     </button>
                     <div v-else class="button-group">
-                        This is your default location
+						<template v-if="size != 'mobile'">
+                        	This is your 
+						</template>
+						default location
                     </div>
                 </div>
             </div>
@@ -305,6 +311,7 @@ export default class Weather extends Vue {
     };
 
     setActive(item: string) {
+		console.log('something')
         this.activeItem = item;
     }
 
@@ -326,7 +333,7 @@ export default class Weather extends Vue {
     display: flex;
     flex-direction: column;
     margin: 10px auto;
-    z-index: -1;
+    // z-index: -1;
 
     .heading {
         width: 100%;
@@ -355,11 +362,18 @@ export default class Weather extends Vue {
                 display: flex;
 				margin-bottom: 10px;
 
+				button {
+					border: none;
+					background: $lightBlue;
+				}
+
                 .add-button {
                     display: flex;
 					height: fit-content;
 					align-items: center;
 					justify-content: space-between;
+					background: $lightBlue;
+					border: none;
 
 					.button-text {
 						height: 100%;
@@ -374,12 +388,13 @@ export default class Weather extends Vue {
                         align-items: center;
                         justify-content: center;
 						margin-left: 5px;
+						background-color: $lightBlue;
 						
 
                         .add-line {
                             transition: 0.2s;
                             width: 18px;
-                            height: 2px;
+							height: 2px;
                             background-color: black;
 
                             &:last-child {
@@ -396,7 +411,12 @@ export default class Weather extends Vue {
                         display: flex;
                         flex-direction: column;
                         align-items: center;
-                        justify-content: center;
+						justify-content: center;
+						background-color: $lightBlue;
+
+						&:focus {
+							border: none;
+						}
 
                         .add-line {
                             transition: 0.2s;
@@ -425,8 +445,7 @@ export default class Weather extends Vue {
         font-size: 35px;
         text-align: left;
 
-        &.mobile,
-        &.tablet {
+        &.mobile {
             display: none;
         }
     }
@@ -446,7 +465,7 @@ export default class Weather extends Vue {
         }
 
         .card-left {
-            border-right: 5px solid black;
+            border-right: 5px solid $darkGray;
             border-bottom: none;
         }
 
@@ -455,11 +474,11 @@ export default class Weather extends Vue {
         }
 
         &.mobile {
-            height: 340px;
+            height: 320px;
             flex-direction: column;
 
             .card {
-                border-bottom: solid 5px black;
+                border-bottom: solid 5px $darkGray;
             }
 
             .card-left {
@@ -478,48 +497,19 @@ export default class Weather extends Vue {
         flex-direction: row;
         justify-content: space-evenly;
         margin: 0;
-        position: fixed;
-        top: 480px;
-        left: 0px;
+        // position: fixed;
+        // top: 480px;
+        // left: 0px;
         width: 100%;
-        z-index: -1;
+        // z-index: 1;
 
         button {
-            background: transparent;
+            background-color: $lightBlue;
             border: none;
             margin: 10px 0;
             font-size: 7vw;
             width: fit-content;
-
-            box-shadow: 6px 6px 6px 0 rgba(0, 0, 0, 0.247),
-                -6px -6px 6px 0 rgb(255, 255, 255);
-
-            &:focus {
-                outline: none;
-
-                box-shadow: inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
-                    inset -9px -9px 5px 0 rgb(255, 255, 255);
-            }
-        }
-
-        &.weather {
-            .weather-button {
-                box-shadow: inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
-                    inset -9px -9px 5px 0 rgb(255, 255, 255);
-            }
-        }
-        &.today {
-            .today-button {
-                box-shadow: inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
-                    inset -9px -9px 5px 0 rgb(255, 255, 255);
-            }
-        }
-        &.week {
-            .week-button {
-                box-shadow: inset 9px 9px 9px 0 rgba(0, 0, 0, 0.247),
-                    inset -9px -9px 9px 0 rgb(255, 255, 255);
-            }
-        }
+		}
     }
 }
 

@@ -43,7 +43,7 @@ export default class WeatherCard extends Vue {
     align-items: center;
     justify-content: center;
     width: 100%;
-    background-color: #999999;
+    background-color: $darkBlue;
     height: 100%;
     z-index: -1;
 
@@ -95,17 +95,17 @@ export default class WeatherCard extends Vue {
     &.mobile {
         .details {
             .temp {
-                font-size: 75px;
+                font-size: 70px;
             }
 
             .description {
-                font-size: 30px;
+                font-size: 25px;
             }
         }
 
         .icon {
             .owi {
-                font-size: 125px;
+                font-size: 115px;
             }
         }
     }

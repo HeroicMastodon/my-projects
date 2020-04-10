@@ -43,6 +43,8 @@ export default class ForecastDay extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '../scss/__stuff.scss';
+
 .forecast {
     // width: 100%;
     // background-color: #3333;
@@ -51,7 +53,7 @@ export default class ForecastDay extends Vue {
     flex-direction: row;
     justify-content: space-between;
     z-index: -1;
-    flex-wrap: wrap;
+	flex-wrap: wrap;
 
     &.tablet {
         justify-content: space-evenly;
@@ -60,7 +62,7 @@ export default class ForecastDay extends Vue {
 
     &.mobile {
         justify-content: space-evenly;
-        height: 340px;
+        height: 320px;
     }
 }
 </style>

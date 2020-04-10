@@ -27,14 +27,22 @@
                 </form>
             </template>
             <template v-slot:side>
-				<template v-if="user">
-					<places @selected="toggle()" />
-					<button class="redirect-button" @click="logoutUser()">Logout</button>
-				</template>
-				<template  v-else>
-					<div>Login or register to save places you want to see!</div>
-					<button v-if="$route.fullPath != '/'" class="redirect-button" @click="redirectToLogin()">Login or Register</button>
-				</template>
+                <template v-if="user">
+                    <places @selected="toggle()" />
+                    <button class="redirect-button" @click="logoutUser()">
+                        Logout
+                    </button>
+                </template>
+                <template v-else>
+                    <div>Login or register to save places you want to see!</div>
+                    <button
+                        v-if="$route.fullPath != '/'"
+                        class="redirect-button"
+                        @click="redirectToLogin()"
+                    >
+                        Login or Register
+                    </button>
+                </template>
             </template>
         </nav-bar>
         <router-view class="route" :key="$router.currentRoute.fullPath" />
@@ -61,9 +69,9 @@ import { actionFields, LogoutAction } from './store/actions';
     }
 })
 export default class App extends Vue {
-	@State(stateFields.user) user!: User | null;
-	
-	@Action(actionFields.logout) logout!: LogoutAction;
+    @State(stateFields.user) user!: User | null;
+
+    @Action(actionFields.logout) logout!: LogoutAction;
 
     searchTerm = '';
     sidebarOpen = false;
@@ -80,29 +88,30 @@ export default class App extends Vue {
 
     toggle() {
         this.sidebarOpen = !this.sidebarOpen;
-	}
+    }
 
-	async logoutUser() {
-		await this.logout();
-		this.$router.go(0);
-	}
-	
-	redirectToLogin() {
-		this.$router.replace('/');
-		this.sidebarOpen = false;
-	}
+    async logoutUser() {
+        await this.logout();
+        this.$router.go(0);
+    }
+
+    redirectToLogin() {
+        this.$router.replace('/');
+        this.sidebarOpen = false;
+    }
 }
 </script>
 
 <style lang="scss">
 @import './assets/scss/test.scss';
+@import './scss/__stuff';
 
 #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
-    color: #2c3e50;
+    color: $grayText;
     margin: auto;
     // max-width: 1500px;
     // display: flex;
@@ -113,7 +122,7 @@ export default class App extends Vue {
 }
 body {
     height: 100%;
-    background-color: #ececec;
+    background-color: $lightGray;
     margin: 0;
 }
 
@@ -154,11 +163,23 @@ body {
     input {
         height: 15px;
         margin-left: 10px;
+        background-color: $lightGray;
+		color: $lightGrayText;
+		border: none;
+		padding: 5px 0;
+		padding-left: 5px;
+        &::placeholder {
+			color: $grayText;
+			font-weight: bold;
+        }
     }
 
     button {
         height: 25px;
-        margin-left: 10px;
+		margin-left: 10px;
+		background-color: $lightBlue;
+		border: none;
+		color: $lightBlueText;
     }
 }
 

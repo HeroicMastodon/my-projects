@@ -85,6 +85,8 @@ export default class ForecastCard extends Vue {
 </script>
 
 <style lang="scss" scoped>
+@import '../scss/__stuff.scss';
+
 .forecast-card {
     display: flex;
     z-index: -1;
@@ -93,7 +95,7 @@ export default class ForecastCard extends Vue {
     &.vertical {
         flex-direction: column;
         height: 300px;
-        background-color: gray;
+        background-color: $darkBlue;
         width: 11%;
 
         .time {
@@ -145,8 +147,8 @@ export default class ForecastCard extends Vue {
     }
 
     &.horizontal {
-        background-color: rgb(158, 158, 158);
-        height: 50px;
+        background-color: $darkBlue;
+        height: 45px;
         margin-top: 5px;
         padding: 5px 0;
         width: 100%;
@@ -188,7 +190,7 @@ export default class ForecastCard extends Vue {
             .icon {
                 font-size: 75px;
             }
-        }
+		}		
     }
 }
 </style>

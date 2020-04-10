@@ -61,6 +61,8 @@ export default class ForecastWeek extends Vue{
 </script>
 
 <style lang="scss" scoped>
+@import '../scss/__stuff.scss';
+
 .forecast-week {
     width: 100%;
     display: block;
@@ -69,7 +71,7 @@ export default class ForecastWeek extends Vue{
 
 
     &.mobile {
-        height: 340px;
+        height: 320px;
     }
 }
 </style>

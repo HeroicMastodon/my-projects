@@ -42,6 +42,7 @@ export default class NavBar extends Vue {
 }
 </script>
 <style lang="scss">
+@import '../../scss/__stuff.scss';
 .nav-wrap {
     position: relative;
 
@@ -53,10 +54,11 @@ export default class NavBar extends Vue {
 
         .side-bar {
             height: 100%;
-            background-color: #cfcfcf;
+            background-color: $lightGray;
             width: 1px;
             transition: 0.5s;
-            overflow: hidden;
+			overflow: hidden;
+			
 
             &.active {
                 width: 320px;
@@ -72,7 +74,7 @@ export default class NavBar extends Vue {
 
     .bar {
         display: flex;
-        background-color: rgb(160, 173, 184);
+        background-color: $darkBlue;
         height: 64px;
 
         .toggle {
@@ -83,7 +85,7 @@ export default class NavBar extends Vue {
             .line {
                 width: 40px;
                 height: 4px;
-                background: #fcfcfc;
+                background: $grayText;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
                 transition: 0.5s;
                 margin-bottom: 5px;

@@ -99,6 +99,7 @@ export default class Auth extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+@import '../scss/__stuff.scss';
 .auth {
 	display: flex;
 	flex-direction: row;
