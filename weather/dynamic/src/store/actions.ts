@@ -5,15 +5,14 @@ import { getWeather, getForecast } from '@/utils/weather';
 import { mutationFields } from '@/store/mutations';
 import { LoginReq, RegisterReq, WeatherUpdateReq } from '@/proxy/requests';
 import { User } from '@/types/Other';
-import { Proxy } from '@/proxy/proxy';
+import { UpdateWeather, LoginUser, RegisterUser, AuthenticateUser, Logout } from '@/proxy/proxy';
 import { ProxyError } from '@/proxy/proxyError';
 
-// TODO: Make all fucntions return error strings.
 function handleError(e: any): string {
     if (e instanceof ProxyError) {
         return e.message;
     }
-
+	console.error(e);
     return 'Something went wrong.';
 }
 
@@ -63,7 +62,7 @@ async function updateDefaultLocation(
 ): Promise<string> {
     try {
         if (state.user) {
-            Proxy.UpdateWeather(
+            await UpdateWeather(
                 new WeatherUpdateReq(state.places, location)
             );
             commit(mutationFields.setDefaultLocation, location);
@@ -85,7 +84,7 @@ async function addNewPlace({ commit, state }: { commit: Commit, state: State }, 
 		if (state.user) {
 			let places = state.places;
 			places.push(place);
-			await Proxy.UpdateWeather(new WeatherUpdateReq(places, state.defaultPlace));
+			await UpdateWeather(new WeatherUpdateReq(places, state.defaultPlace));
 			// commit(mutationFields.addPlace, place);
 			return '';
 		}
@@ -101,7 +100,8 @@ export interface addNewPlace {
 
 async function login({ commit }: { commit: Commit }, request: LoginReq) {
     try {
-        let user = await Proxy.LoginUser(request);
+		let user = await LoginUser(request);
+		console.log(user);
         commit(mutationFields.init, user);
         return '';
     } catch (error) {
@@ -116,8 +116,9 @@ async function register(
     { commit }: any,
     request: RegisterReq
 ): Promise<String> {
-    try {
-        let user = await Proxy.RegisterUser(request);
+	try {
+		console.log('hello')
+        let user = await RegisterUser(request);
         commit(mutationFields.init, user);
         return '';
     } catch (error) {
@@ -130,7 +131,7 @@ export interface RegisterAction {
 
 async function getUser({ commit }: { commit: Commit }) {
     try {
-        let user = await Proxy.AuthenticateUser();
+        let user = await AuthenticateUser();
         commit(mutationFields.init, user);
         return '';
     } catch (error) {
@@ -143,7 +144,7 @@ export interface GetUserAction {
 
 async function logout({ commit }: { commit: Commit }) {
 	try {
-		await Proxy.Logout();
+		await Logout();
 		commit(mutationFields.resetState);
 	} catch (error) {
 		return handleError(error);
@@ -165,12 +166,12 @@ export const actions: ActionTree<State, State> = {
 };
 
 export const actionFields = {
-    fetchWeather: fetchWeather.name,
-    fetchForecast: fetchForecast.name,
-    updateDefaultLocation: updateDefaultLocation.name,
-    login: login.name,
-    register: register.name,
-	getUser: getUser.name,
-	logout: logout.name,
-	addNewPlace: addNewPlace.name
+    fetchWeather: 'fetchWeather',
+    fetchForecast: 'fetchForecast',
+    updateDefaultLocation: 'updateDefaultLocation',
+    login: 'login',
+    register: 'register',
+	getUser: 'getUser',
+	logout: 'logout',
+	addNewPlace: 'addNewPlace'
 };

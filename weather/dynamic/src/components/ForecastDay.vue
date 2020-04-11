@@ -1,5 +1,5 @@
 <template>
-    <div v-if="forecast" :class="'forecast ' + size">
+    <div v-if="forecast && forecast.list" :class="'forecast ' + size">
         <forecast-card
             v-for="i in 8"
             :key="i"

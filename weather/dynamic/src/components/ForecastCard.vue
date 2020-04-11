@@ -66,6 +66,7 @@ export default class ForecastCard extends Vue {
     day!: string;
 
     created() {
+		console.log(this.forecastItem)
         if (this.forecastItem) {
             this.time = this.forecastItem.time.time;
             this.icon = this.forecastItem.weather.icon;

@@ -44,6 +44,9 @@
 		<button type="submit" class="submit">Register</button>
 		<button type="button" class="switch" @click="switchForm()">Switch to Login</button>
 	</form>
+	<div class="error">
+		{{error}}
+	</div>
 </div>
 </template>
 <script lang="ts">
@@ -78,9 +81,12 @@ export default class Auth extends Vue {
 			return;
 		};
 
-		await this.loginAction(this.loginReq);
-		this.$router.go(0);
-		this.$emit('login');
+		this.error = await this.loginAction(this.loginReq);
+
+		if (this.error == '') {
+			// this.$router.go(0);
+			this.$emit('login');
+		}
 	}
 
 	async register() {
@@ -94,7 +100,8 @@ export default class Auth extends Vue {
 			return;
 		}
 		
-		this.registerAction(this.registerReq);
+		await this.registerAction(this.registerReq);
+		console.log('i was called');
 	}
 }
 </script>

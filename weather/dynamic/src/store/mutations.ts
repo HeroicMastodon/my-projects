@@ -86,12 +86,12 @@ export const mutations: MutationTree<State> = {
 };
 
 export const mutationFields = {
-    weatherLoaded: weatherLoaded.name,
-    forecastLoaded: forecastLoaded.name,
-    addPlace: addPlace.name,
-    removePlace: removePlace.name,
-	setDefaultLocation: setDefaultLocation.name,
-	setUser: setUser.name,
-	init: init.name,
-	resetState: resetState.name,
+    weatherLoaded: 'weatherLoaded',
+    forecastLoaded: 'forecastLoaded',
+    addPlace: 'addPlace',
+    removePlace: 'removePlace',
+	setDefaultLocation: 'setDefaultLocation',
+	setUser: 'setUser',
+	init: 'init',
+	resetState: 'resetState',
 };

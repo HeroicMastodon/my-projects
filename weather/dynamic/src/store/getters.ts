@@ -33,7 +33,7 @@ export const getters: GetterTree<State, State> = {
 };
 
 export const getterFields = {
-    isPlace: isPlace.name,
-	getWeather: getWeather.name,
-	isDefaultPlace: isDefaultPlace.name
+    isPlace: 'isPlace',
+	getWeather: 'getWeather',
+	isDefaultPlace: 'isDefaultPlace'
 };

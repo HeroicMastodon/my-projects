@@ -20,6 +20,7 @@ export async function getWeather(
 	state: string = 'Utah',
 	country: string = 'Us'
 ): Promise<WeatherRes> {
+	console.log('get weahter was called')
 	try {
 		let query = constructQuery(weatherQuery, city, state, country);
 		let res = (await client.get(query)) || null;
@@ -40,6 +41,7 @@ export async function getForecast(
            state: string = 'Utah',
            country: string = 'US'
 ): Promise<ForecastRes> {
+	console.log('get forecast was called')
 	try {
 		let query = constructQuery(forcastQuery, city);
 		let res = (await client.get(query)) || null;

@@ -13,54 +13,54 @@ const client = axios.create({
 	}
 })
 
-export class Proxy {
-	static async AuthenticateUser() {
+// export class Proxy {
+	export async function AuthenticateUser() {
 		try {
 			let res = await client.get<LoginRes>('user');
 			let data = res.data;
 			return data;
 		} catch (e) {
-			this.handleError(e);
+			handleError(e);
 		}
 	}
 
-	static async RegisterUser(req: RegisterReq) {
+	export async function RegisterUser(req: RegisterReq) {
 		try {
 			let res = await client.post<LoginRes>('register', req);
 			let data = res.data;
 			return data;
 		} catch (e) {
-			this.handleError(e);
+			handleError(e);
 		}
 	}
 
-	static async LoginUser(req: LoginReq) {
+	export async function LoginUser(req: LoginReq) {
 		try {
 			let res = await client.post<LoginRes>('login', req);
 			let data = res.data;
 			return data;
 		} catch (error) {
-			this.handleError(error);
+			handleError(error);
 		}
 	}
 
-	static async Logout() {
+	export async function Logout() {
 		try {
 			await client.delete('');
 		} catch (error) {
-			this.handleError(error);
+			handleError(error);
 		}
 	}
 
-	static async UpdateWeather(req: WeatherUpdateReq) {
+	export async function UpdateWeather(req: WeatherUpdateReq) {
 		try {
 			await client.post<WeatherRes>('update', req);
 		} catch (error) {
-			this.handleError(error)
+			handleError(error)
 		}
 	}
 
-	private static handleError(e: any) {
+	function handleError(e: any) {
 		let error: AxiosError<ErrorRes> = e;
 		if (error && error.response) {
 			throw new ProxyError(error.response.data.detail);
@@ -68,4 +68,4 @@ export class Proxy {
 
 		throw new ProxyError("An error occured");
 	}
-}
+// }

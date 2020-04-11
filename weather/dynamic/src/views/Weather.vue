@@ -49,7 +49,7 @@
         <div
             id="weather-bar"
             :class="'weather-bar ' + size"
-            v-if="size != 'mobile' || activeItem == 'weather'"
+            v-if="(size != 'mobile' || activeItem == 'weather') && weather.weather"
         >
             <weather-card
                 class="card card-left"
@@ -121,42 +121,42 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 import Loader from '@/components/Loader.vue';
 
-const WeatherCard = () => ({
-    component: import(
-        /* webpackPrefetch: true */ '@/components/WeatherCard.vue'
-    ) as any,
-    loading: Loader,
-    delay: 1
-});
-const DetailCard = () => ({
-    component: import(
-        /* webpackPrefetch: true */ '@/components/DetailCard.vue'
-    ) as any,
-    loading: Loader,
-    delay: 1
-});
-const ForecastDay = () => ({
-    component: import(
-        /* webpackPrefetch: true */ '@/components/ForecastDay.vue'
-    ) as any,
-    loading: Loader,
-    delay: 1
-});
-const ForecastWeek = () => ({
-    component: import(
-        /* webpackPrefetch: true */ '@/components/ForecastWeek.vue'
-    ) as any,
-    loading: Loader,
-    delay: 1
-});
+// const WeatherCard = () => ({
+//     component: import(
+//         /* webpackPrefetch: true */ '@/components/WeatherCard.vue'
+//     ) as any,
+//     loading: Loader,
+//     delay: 1
+// });
+// const DetailCard = () => ({
+//     component: import(
+//         /* webpackPrefetch: true */ '@/components/DetailCard.vue'
+//     ) as any,
+//     loading: Loader,
+//     delay: 1
+// });
+// const ForecastDay = () => ({
+//     component: import(
+//         /* webpackPrefetch: true */ '@/components/ForecastDay.vue'
+//     ) as any,
+//     loading: Loader,
+//     delay: 1
+// });
+// const ForecastWeek = () => ({
+//     component: import(
+//         /* webpackPrefetch: true */ '@/components/ForecastWeek.vue'
+//     ) as any,
+//     loading: Loader,
+//     delay: 1
+// });
 
-const Auth = () => ({
-    component: import(
-        /* webpackPrefetch: true */ '@/components/Auth.vue'
-    ) as any,
-    loading: Loader,
-    delay: 1
-});
+// const Auth = () => ({
+//     component: import(
+//         /* webpackPrefetch: true */ '@/components/Auth.vue'
+//     ) as any,
+//     loading: Loader,
+//     delay: 1
+// });
 
 import { WeatherRes } from '../types/WeatherRes';
 import { getWeather, getForecast } from '../utils/weather';
@@ -181,6 +181,11 @@ import {
     setDefaultLocation
 } from '../store/mutations';
 import { User } from '../types/Other';
+import WeatherCard from '@/components/WeatherCard.vue';
+import DetailCard from '@/components/DetailCard.vue';
+import ForecastDay from '@/components/ForecastDay.vue';
+import ForecastWeek from '@/components/ForecastWeek.vue';
+import Auth from '@/components/Auth.vue';
 
 @Component({
     name: 'weather',
@@ -244,9 +249,9 @@ export default class Weather extends Vue {
 		this.searchOnly = false;
 		if (this.$route.params.hasOwnProperty('place')) {
             this.location = this.$route.params.place;
-        } else if (this.defaultPlace != '') {
+		} else if (this.defaultPlace && this.defaultPlace != '') {
 			this.$router.push('/weather/' + this.defaultPlace);
-        } else if (this.places.length > 0) {
+		} else if (this.places && this.places.length > 0) {
             this.location = this.places[0];
         } else {
             this.searchOnly = true;
