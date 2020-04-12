@@ -103,7 +103,7 @@
 			</div>
         </template>
         <template v-else>
-            <div>
+            <div class="message">
                 Welcome to Assorted Folk's simple weather app. To get started,
                 please login, create an account, or search for a place to view.
             </div>
@@ -466,13 +466,17 @@ export default class Weather extends Vue {
         }
 
         .card {
-            border-bottom: none;
+			border-bottom: none;
+
+			&:first-child {
+				margin-right: 1.5em;
+			}
         }
 
-        .card-left {
-            border-right: 5px solid $darkGray;
-            border-bottom: none;
-        }
+        // .card-left {
+        //     border-right: 5px solid $darkGray;
+        //     border-bottom: none;
+        // }
 
         &.tablet {
             height: 200px;
@@ -483,11 +487,18 @@ export default class Weather extends Vue {
             flex-direction: column;
 
             .card {
-                border-bottom: solid 5px $darkGray;
+				// border-bottom: solid 5px $darkGray;
+				// margin-bottom: 1em;
+				// margin-right: 0;
+				&:first-child {
+					margin-right: 0;
+					margin-bottom: 1em;
+				
+				}
             }
 
             .card-left {
-                border-right: none;
+                // border-right: none;
                 height: 160px;
             }
 

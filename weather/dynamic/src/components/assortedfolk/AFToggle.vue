@@ -33,6 +33,8 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+@import '../../scss/__stuff.scss';
+
 .toggle {
     margin: 20px 10px;
     transition: 0.5s;
@@ -41,7 +43,8 @@ export default Vue.extend({
     .line {
         width: 40px;
         height: 4px;
-        background: #fcfcfc;
+		background: $darkBlueText;
+		background-color: $darkBlueText;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         transition: 0.5s;
         margin-bottom: 5px;

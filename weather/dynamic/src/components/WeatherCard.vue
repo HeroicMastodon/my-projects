@@ -43,9 +43,11 @@ export default class WeatherCard extends Vue {
     align-items: center;
     justify-content: center;
     width: 100%;
-    background-color: $darkBlue;
+	background-color: $darkBlue;
+	color: $darkBlueText;
     height: 100%;
-    z-index: -1;
+	z-index: -1;
+	border-radius: 10px;
 
     .details {
         display: flex;
@@ -56,11 +58,11 @@ export default class WeatherCard extends Vue {
         height: 100%;
 
         .temp {
-            font-size: 150px;
+            font-size: 125px;
         }
 
         .description {
-            font-size: 50px;
+            font-size: 45px;
         }
     }
 
@@ -77,11 +79,11 @@ export default class WeatherCard extends Vue {
     &.tablet {
         .details {
             .temp {
-                font-size: 100px;
+                font-size: 84px;
             }
 
             .description {
-                font-size: 30px;
+                font-size: 25px;
             }
         }
 
@@ -95,11 +97,11 @@ export default class WeatherCard extends Vue {
     &.mobile {
         .details {
             .temp {
-                font-size: 70px;
+                font-size: 64px;
             }
 
             .description {
-                font-size: 25px;
+                font-size: 20px;
             }
         }
 

@@ -54,7 +54,8 @@ export default class NavBar extends Vue {
 
         .side-bar {
             height: 100%;
-            background-color: $lightGray;
+			background-color: $gray;
+			color: $darkBlueText;
             width: 1px;
             transition: 0.5s;
 			overflow: hidden;
@@ -85,7 +86,7 @@ export default class NavBar extends Vue {
             .line {
                 width: 40px;
                 height: 4px;
-                background: $grayText;
+                background: $darkBlueText;
                 box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
                 transition: 0.5s;
                 margin-bottom: 5px;

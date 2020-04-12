@@ -91,7 +91,9 @@ export default class ForecastCard extends Vue {
 .forecast-card {
     display: flex;
     z-index: -1;
-    justify-content: space-evenly;
+	justify-content: space-evenly;
+	color: $darkBlueText;
+	border-radius: 60px;
 
     &.vertical {
         flex-direction: column;
@@ -116,15 +118,17 @@ export default class ForecastCard extends Vue {
             width: 11%;
             height: 200px;
             margin: 0 3px;
-            justify-content: space-between;
+			justify-content: space-around;
+			border-radius: 45px;
 
             .time,
             .temp {
-                font-size: 4vw;
+                font-size: 3vw;
             }
 
             .icon i {
-                font-size: 9vw;
+				font-size: 8vw;
+				margin: -5px 0;
             }
         }
 
@@ -134,11 +138,12 @@ export default class ForecastCard extends Vue {
             height: 125px;
             padding: 0 5px;
             flex-basis: 50px;
-            flex-shrink: 1;
+			flex-shrink: 1;
+			border-radius: 25px;
 
             .time,
             .temp {
-                font-size: 20px;
+                font-size: 16px;
             }
 
             .icon i {
@@ -160,12 +165,12 @@ export default class ForecastCard extends Vue {
         .group {
             width: fit-content;
             div:first-child {
-                font-size: 20px;
+                font-size: 16px;
                 font-weight: bold;
             }
 
             div:nth-child(2) {
-                font-size: 20px;
+                font-size: 16px;
             }
         }
 
@@ -179,7 +184,7 @@ export default class ForecastCard extends Vue {
             .group {
                 width: fit-content;
                 div:first-child {
-                    font-size: 35px;
+                    font-size: 30px;
                     font-weight: bold;
                 }
 

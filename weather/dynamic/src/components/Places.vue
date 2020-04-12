@@ -62,14 +62,13 @@ export default class Places extends Vue {
 			text-decoration: none;
 			width: calc(100% - 16px);
 			text-align: center;
-			color: $grayText;
+			color: $darkBlueText;
 			font-weight: bold;
 		}
 
         .router-link-active {
 			background-color: $blue;
-			color: $darkBlueText;
-			font-weight: initial;
+			color: $lightGrayText;
         }
     }
 }

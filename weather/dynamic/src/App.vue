@@ -107,7 +107,8 @@ export default class App extends Vue {
 @import './scss/__stuff';
 
 #app {
-    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+	// font-family: 'Avenir', Helvetica, Arial, sans-serif;
+	font-family: 'noto-sans';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-align: center;
@@ -150,7 +151,8 @@ body {
     .item {
         display: flex;
         justify-content: center;
-        align-items: center;
+		align-items: center;
+		color: $darkBlueText;
     }
 }
 
@@ -181,6 +183,19 @@ body {
 		border: none;
 		color: $lightBlueText;
     }
+}
+
+button {
+	border:none;
+	border-radius: 10px;
+	font-weight: bold;
+	padding: 5px 8px;
+}
+
+.redirect-button {
+	border: none;
+	background-color: $lightBlue;
+	font-size: 16px;
 }
 
 @media only screen and (max-width: 800px) {

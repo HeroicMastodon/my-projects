@@ -54,6 +54,7 @@ export default class ForecastDay extends Vue {
     justify-content: space-between;
     z-index: -1;
 	flex-wrap: wrap;
+	color: $darkBlueText;
 
     &.tablet {
         justify-content: space-evenly;
