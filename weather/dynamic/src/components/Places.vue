@@ -46,12 +46,12 @@ export default class Places extends Vue {
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
-    min-width: 320px;
+	min-width: 320px;
     overflow: hidden;
     word-wrap: normal;
 
     .place {
-        margin: 10px;
+		margin: 10px 0;
         width: 100%;
         text-align: left;
 		display: flex;

@@ -544,6 +544,9 @@ export default class Weather extends Vue {
 
 	.message {
 		width: fit-content;
+		margin: 16px;
+		font-size: 20px;
+		font-weight: bold;
 	}
 }
 
