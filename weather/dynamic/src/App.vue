@@ -170,6 +170,7 @@ body {
 		border: none;
 		padding: 5px 0;
 		padding-left: 5px;
+		border-radius: 8px;
         &::placeholder {
 			color: $grayText;
 			font-weight: bold;

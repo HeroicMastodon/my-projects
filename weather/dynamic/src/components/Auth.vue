@@ -110,8 +110,11 @@ export default class Auth extends Vue {
 	flex-direction: row;
 	align-items: flex-start;
 	justify-content: space-between;
+	width: fit-content;
 	max-width: 500px;
+	min-width: 300px;
 	height: fit-content;
+	color: $darkBlueText;
 
 	.form {
 		height: 100%;
@@ -121,27 +124,42 @@ export default class Auth extends Vue {
 		align-items: flex-start;
 		justify-content: flex-start;
 		text-align: left;
-		background-color: rgb(184, 184, 184);
+		background-color: $darkBlue;
 		padding: 24px;
 		padding-top: 0;
+		padding-bottom: 16px;
 		border-radius: 2px;
+
+		.form-header {
+			h2 {
+				margin: 8px;
+			}
+		}
 	
 		.form-group {
-			margin-bottom: 10px;
+			margin-bottom: 8px;
 
 			.form-input {
 				border-radius: 2px;
+
+				background-color: $lightGray;
+				border: none;
+				border-radius: 5px;
 			}
 		}
 
-		.switch {
-			align-self: flex-end;
+		button {
+			background-color: $lightBlue;
+			&.switch {
+				align-self: flex-end;
+			}
+	
+			&.submit {
+				align-self: flex-end;
+				margin-bottom: 5px;
+			}
 		}
 
-		.submit {
-			align-self: flex-end;
-			margin-bottom: 5px;
-		}
 	}
 }
 </style>

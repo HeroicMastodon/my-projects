@@ -103,7 +103,7 @@
 			</div>
         </template>
         <template v-else>
-            <div class="message">
+            <div :class="'message ' + size">
                 Welcome to Assorted Folk's simple weather app. To get started,
                 please login, create an account, or search for a place to view.
             </div>
@@ -121,34 +121,34 @@ import { Component, Vue, Prop } from 'vue-property-decorator';
 
 import Loader from '@/components/Loader.vue';
 
-// const WeatherCard = () => ({
-//     component: import(
-//         /* webpackPrefetch: true */ '@/components/WeatherCard.vue'
-//     ) as any,
-//     loading: Loader,
-//     delay: 1
-// });
-// const DetailCard = () => ({
-//     component: import(
-//         /* webpackPrefetch: true */ '@/components/DetailCard.vue'
-//     ) as any,
-//     loading: Loader,
-//     delay: 1
-// });
-// const ForecastDay = () => ({
-//     component: import(
-//         /* webpackPrefetch: true */ '@/components/ForecastDay.vue'
-//     ) as any,
-//     loading: Loader,
-//     delay: 1
-// });
-// const ForecastWeek = () => ({
-//     component: import(
-//         /* webpackPrefetch: true */ '@/components/ForecastWeek.vue'
-//     ) as any,
-//     loading: Loader,
-//     delay: 1
-// });
+const WeatherCard = () => ({
+    component: import(
+        /* webpackPrefetch: true */ '@/components/WeatherCard.vue'
+    ) as any,
+    loading: Loader,
+    delay: 1
+});
+const DetailCard = () => ({
+    component: import(
+        /* webpackPrefetch: true */ '@/components/DetailCard.vue'
+    ) as any,
+    loading: Loader,
+    delay: 1
+});
+const ForecastDay = () => ({
+    component: import(
+        /* webpackPrefetch: true */ '@/components/ForecastDay.vue'
+    ) as any,
+    loading: Loader,
+    delay: 1
+});
+const ForecastWeek = () => ({
+    component: import(
+        /* webpackPrefetch: true */ '@/components/ForecastWeek.vue'
+    ) as any,
+    loading: Loader,
+    delay: 1
+});
 
 // const Auth = () => ({
 //     component: import(
@@ -181,10 +181,10 @@ import {
     setDefaultLocation
 } from '../store/mutations';
 import { User } from '../types/Other';
-import WeatherCard from '@/components/WeatherCard.vue';
-import DetailCard from '@/components/DetailCard.vue';
-import ForecastDay from '@/components/ForecastDay.vue';
-import ForecastWeek from '@/components/ForecastWeek.vue';
+// import WeatherCard from '@/components/WeatherCard.vue';
+// import DetailCard from '@/components/DetailCard.vue';
+// import ForecastDay from '@/components/ForecastDay.vue';
+// import ForecastWeek from '@/components/ForecastWeek.vue';
 import Auth from '@/components/Auth.vue';
 
 @Component({
@@ -348,6 +348,7 @@ export default class Weather extends Vue {
         justify-content: space-between;
 
         .location-wrapper {
+			min-width: 150px;
             .location {
                 font-size: 60px;
                 font-weight: bold;
@@ -547,6 +548,12 @@ export default class Weather extends Vue {
 		margin: 16px;
 		font-size: 20px;
 		font-weight: bold;
+
+		&.mobile {
+			margin-top: 8px;
+			margin-bottom: 0px;
+			font-size: 12px;
+		}
 	}
 }
 
