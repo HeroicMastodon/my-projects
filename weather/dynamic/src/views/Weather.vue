@@ -213,6 +213,7 @@ export default class Weather extends Vue {
 	setDefaultLocation!: updateDefaultLocation;
 	@Action(actionFields.getUser) getUser!: GetUserAction;
 	@Action(actionFields.addNewPlace) addPlace!: addNewPlace;
+    @Action(actionFields.removeOldPlace) removePlace!: removePlace;
 
     @Getter(getterFields.isPlace) isPlace!: isPlace;
     @Getter(getterFields.isDefaultPlace) isDefaultPlace!: isDefaultPlace;
@@ -220,7 +221,6 @@ export default class Weather extends Vue {
     @State(stateFields.places) places!: Array<string>;
 
     // @Mutation(mutationFields.addPlace) addPlace!: addPlace;
-    @Mutation(mutationFields.removePlace) removePlace!: removePlace;
 
     readonly tabletSize = 1050;
     readonly mobileSize = 765;
@@ -366,6 +366,7 @@ export default class Weather extends Vue {
             .button-group {
                 display: flex;
 				margin-bottom: 10px;
+				font-weight: bold;
 
 				button {
 					border: none;

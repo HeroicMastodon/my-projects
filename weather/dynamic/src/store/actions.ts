@@ -95,7 +95,28 @@ async function addNewPlace({ commit, state }: { commit: Commit, state: State }, 
 	}
 }
 export interface addNewPlace {
-	(place: string): void;
+	(place: string): string;
+}
+
+async function removeOldPlace({ commit, state }: { commit: Commit, state: State }, place: string) {
+	try {
+		if (state.user) {
+			if (state.defaultPlace == place) {
+				state.defaultPlace = '';
+			}
+
+			state.places.splice(state.places.indexOf(place), 1);
+
+			await UpdateWeather(new WeatherUpdateReq(state.places, state.defaultPlace));
+
+			return '';
+		}
+	} catch (error) {
+		return handleError(error);
+	}
+}
+export interface removeOldPlace {
+	(place: string): string;
 }
 
 async function login({ commit }: { commit: Commit }, request: LoginReq) {
@@ -163,6 +184,7 @@ export const actions: ActionTree<State, State> = {
 	getUser,
 	logout,
 	addNewPlace,
+	removeOldPlace
 };
 
 export const actionFields = {
@@ -173,5 +195,6 @@ export const actionFields = {
     register: 'register',
 	getUser: 'getUser',
 	logout: 'logout',
-	addNewPlace: 'addNewPlace'
+	addNewPlace: 'addNewPlace',
+	removeOldPlace: 'removeOldPlace'
 };

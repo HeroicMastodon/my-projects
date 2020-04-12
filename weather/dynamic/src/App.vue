@@ -34,7 +34,7 @@
                     </button>
                 </template>
                 <template v-else>
-                    <div>Login or register to save places you want to see!</div>
+                    <div class="login-message">Login or register to save places you want to see!</div>
                     <button
                         v-if="$route.fullPath != '/'"
                         class="redirect-button"
@@ -193,9 +193,16 @@ button {
 }
 
 .redirect-button {
+	margin-top: 16px;
 	border: none;
 	background-color: $lightBlue;
-	font-size: 16px;
+	font-size: 24px;
+	min-width: 250px;
+}
+
+.login-message {
+	margin-top: 16px;
+	min-width: 320px;
 }
 
 @media only screen and (max-width: 800px) {
