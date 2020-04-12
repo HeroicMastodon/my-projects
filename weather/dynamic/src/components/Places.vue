@@ -60,7 +60,7 @@ export default class Places extends Vue {
 		.link {
 			padding: 8px 0;
 			text-decoration: none;
-			width: calc(100% - 16px);
+			width: 100%;
 			text-align: center;
 			color: $darkBlueText;
 			font-weight: bold;
