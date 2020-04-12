@@ -145,6 +145,7 @@ export default class Auth extends Vue {
 				background-color: $lightGray;
 				border: none;
 				border-radius: 5px;
+				padding: 2px 8px;
 			}
 		}
 

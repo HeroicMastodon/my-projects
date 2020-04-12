@@ -164,12 +164,12 @@ body {
 
     input {
         height: 15px;
-        margin-left: 10px;
+        margin-left: 8px;
         background-color: $lightGray;
 		color: $lightGrayText;
 		border: none;
 		padding: 5px 0;
-		padding-left: 5px;
+		padding-left: 8px;
 		border-radius: 8px;
         &::placeholder {
 			color: $grayText;
