@@ -175,7 +175,7 @@ export default class ForecastCard extends Vue {
         }
 
         .icon {
-            font-size: 50px;
+            font-size: 40px;
         }
 
         &.desktop {
@@ -194,7 +194,7 @@ export default class ForecastCard extends Vue {
             }
 
             .icon {
-                font-size: 75px;
+                font-size: 65px;
             }
 		}		
     }
