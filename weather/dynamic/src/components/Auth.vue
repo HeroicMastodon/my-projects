@@ -83,9 +83,6 @@ export default class Auth extends Vue {
 
 		this.error = await this.loginAction(this.loginReq);
 
-		if (this.error == '') {
-			this.$router.go(0);
-		}
 	}
 
 	async register() {

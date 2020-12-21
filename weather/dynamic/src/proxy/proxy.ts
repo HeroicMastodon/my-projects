@@ -13,10 +13,24 @@ const client = axios.create({
 	}
 })
 
+const storage = window.localStorage;
+
+async function handleAuthToken(res: AxiosResponse<LoginRes>) {
+    if (! res.headers || ! res.headers['authorization']) return;
+    const token = (res.headers['authorization'].split(' ')[1]);
+    storage.setItem('token', token);
+}
+
 // export class Proxy {
 	export async function AuthenticateUser() {
 		try {
-			let res = await client.get<LoginRes>('user');
+            const token = storage.getItem('token');
+            console.log(token);
+            let res = await client.get<LoginRes>('user', {
+                headers: {
+                    Authorization: token != null ? `Bearer ${token}` : undefined
+                }
+            });
 			let data = res.data;
 			return data;
 		} catch (e) {
@@ -26,7 +40,8 @@ const client = axios.create({
 
 	export async function RegisterUser(req: RegisterReq) {
 		try {
-			let res = await client.post<LoginRes>('register', req);
+            let res = await client.post<LoginRes>('register', req);
+            await handleAuthToken(res);
 			let data = res.data;
 			return data;
 		} catch (e) {
@@ -36,7 +51,8 @@ const client = axios.create({
 
 	export async function LoginUser(req: LoginReq) {
 		try {
-			let res = await client.post<LoginRes>('login', req);
+            let res = await client.post<LoginRes>('login', req);
+            await handleAuthToken(res);
 			let data = res.data;
 			return data;
 		} catch (error) {
@@ -46,7 +62,8 @@ const client = axios.create({
 
 	export async function Logout() {
 		try {
-			await client.delete('');
+            await client.delete('');
+            storage.clear();
 		} catch (error) {
 			handleError(error);
 		}
